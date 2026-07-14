@@ -1,0 +1,274 @@
+-- Merging decision tree log ---
+provider#androidx.core.content.FileProvider
+INJECTED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:51:9-59:20
+	android:grantUriPermissions
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:55:13-47
+	android:authorities
+		INJECTED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:53:13-60
+	android:exported
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:54:13-37
+	android:name
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:52:13-62
+manifest
+ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:17:1-63:12
+INJECTED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:17:1-63:12
+INJECTED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:17:1-63:12
+INJECTED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:17:1-63:12
+MERGED from [androidx.databinding:viewbinding:7.4.1] /home/arsen/.gradle/caches/transforms-3/e9784995ea94424bbb63d3a3c6f7b898/transformed/jetified-viewbinding-7.4.1/AndroidManifest.xml:2:1-7:12
+MERGED from [:utils] /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/utils/build/intermediates/merged_manifest/debug/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-fragment-ktx:2.2.2] /home/arsen/.gradle/caches/transforms-3/a1e79cbee3a2666909ea73cf65b86502/transformed/navigation-fragment-ktx-2.2.2/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.fragment:fragment-ktx:1.2.4] /home/arsen/.gradle/caches/transforms-3/0f78c1c484021ec2b275e92899b08a0a/transformed/jetified-fragment-ktx-1.2.4/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-ui-ktx:2.2.2] /home/arsen/.gradle/caches/transforms-3/e96fc368292eac095f13439e2ce6ad20/transformed/navigation-ui-ktx-2.2.2/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.2.2] /home/arsen/.gradle/caches/transforms-3/835b3920ed572e2e3a376fc2084d781a/transformed/navigation-runtime-ktx-2.2.2/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.activity:activity-ktx:1.1.0] /home/arsen/.gradle/caches/transforms-3/1dc1dd2ffa1b72bb8cd7d4daf629cbef/transformed/jetified-activity-ktx-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.core:core-ktx:1.3.0] /home/arsen/.gradle/caches/transforms-3/492634d7bf82daaf0e5f0cae3a8e6549/transformed/jetified-core-ktx-1.3.0/AndroidManifest.xml:2:1-9:12
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.2.0] /home/arsen/.gradle/caches/transforms-3/a4de4c7f45472bdd499961edfda13745/transformed/jetified-lifecycle-runtime-ktx-2.2.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0] /home/arsen/.gradle/caches/transforms-3/6fe9e7da90077c40fff0cf123d82cce3/transformed/jetified-lifecycle-viewmodel-ktx-2.2.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-ui:2.2.2] /home/arsen/.gradle/caches/transforms-3/605a1804d8d1b9a45cbdfc2063a4d071/transformed/navigation-ui-2.2.2/AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.material:material:1.0.0] /home/arsen/.gradle/caches/transforms-3/7c4cd6db574df327620e0cd280cc5fd8/transformed/material-1.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.appcompat:appcompat:1.1.0] /home/arsen/.gradle/caches/transforms-3/da0f26b7d8c64161604608d061a0d79e/transformed/appcompat-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] /home/arsen/.gradle/caches/transforms-3/1211e4674caa89ed4ed52e7242982549/transformed/constraintlayout-1.1.3/AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.graphics:graphics-core:1.0.0-alpha05] /home/arsen/.gradle/caches/transforms-3/4c3e96b63dfbdba7c89bd16017383314/transformed/jetified-graphics-core-1.0.0-alpha05/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] /home/arsen/.gradle/caches/transforms-3/e4d5f9ba463be5980b066660ed729e90/transformed/recyclerview-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.exifinterface:exifinterface:1.2.0] /home/arsen/.gradle/caches/transforms-3/bb0a73b556c6869ff7962f3e10993437/transformed/exifinterface-1.2.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /home/arsen/.gradle/caches/transforms-3/f267b68b85d0aaa556d235f1b54f31fc/transformed/legacy-support-core-ui-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/arsen/.gradle/caches/transforms-3/bfb3e95fb0d4a806ba1d7f7d8df0111b/transformed/cursoradapter-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.appcompat:appcompat-resources:1.1.0] /home/arsen/.gradle/caches/transforms-3/0149031db8666e54ede9cc80c59690cb/transformed/jetified-appcompat-resources-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /home/arsen/.gradle/caches/transforms-3/215fd7ec7ab64b8006c52d37db7d24ed/transformed/drawerlayout-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-fragment:2.2.2] /home/arsen/.gradle/caches/transforms-3/119b167fab358b37e7a61a8c31150353/transformed/navigation-fragment-2.2.2/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.fragment:fragment:1.2.4] /home/arsen/.gradle/caches/transforms-3/88b7343a03116d8fd8f06bdf1ef4c499/transformed/fragment-1.2.4/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/arsen/.gradle/caches/transforms-3/ff22b7e2e91e43039c2d040c16c8b477/transformed/viewpager-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /home/arsen/.gradle/caches/transforms-3/b9870a94f9c21dd2feeece807aacc745/transformed/coordinatorlayout-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /home/arsen/.gradle/caches/transforms-3/1667381f84c02d36708ad2ad33277c9e/transformed/slidingpanelayout-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.0.0] /home/arsen/.gradle/caches/transforms-3/7ed1859241097d0c08094e00b91f1726/transformed/customview-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /home/arsen/.gradle/caches/transforms-3/1acc9462f9964d5c96dcdcfc0decb631/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /home/arsen/.gradle/caches/transforms-3/d2a6141ce51be0af15385691a72fad72/transformed/vectordrawable-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.transition:transition:1.0.1] /home/arsen/.gradle/caches/transforms-3/15bdb37f7d33b51e717756ce05ccdb40/transformed/transition-1.0.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/arsen/.gradle/caches/transforms-3/d8ec64014421995740d402059c38f6de/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] /home/arsen/.gradle/caches/transforms-3/4e8244ae4c729a431270e39e97633e25/transformed/loader-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-runtime:2.2.2] /home/arsen/.gradle/caches/transforms-3/454640a0ce4a2b3449d090387259f8f4/transformed/navigation-runtime-2.2.2/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.activity:activity:1.1.0] /home/arsen/.gradle/caches/transforms-3/73c217efdd9c18c3c9af19f2c90f289a/transformed/jetified-activity-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-common-ktx:2.2.2] /home/arsen/.gradle/caches/transforms-3/a2568c2ad9b910e305ad8a2c4c1d4d0c/transformed/navigation-common-ktx-2.2.2/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-common:2.2.2] /home/arsen/.gradle/caches/transforms-3/f20d331ff7637828c18eca12dafdf58e/transformed/navigation-common-2.2.2/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /home/arsen/.gradle/caches/transforms-3/1b6083486e0e6764462559cee5f440ef/transformed/swiperefreshlayout-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /home/arsen/.gradle/caches/transforms-3/7c5e0c78585732f4918b778f3a1f9f8c/transformed/asynclayoutinflater-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core:1.8.0] /home/arsen/.gradle/caches/transforms-3/91e102e558bf44937bad81fd1f8f9ea5/transformed/core-1.8.0/AndroidManifest.xml:17:1-26:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.3.1] /home/arsen/.gradle/caches/transforms-3/41b2daf39db2d9100b366755e9e5f71c/transformed/lifecycle-runtime-2.3.1/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/arsen/.gradle/caches/transforms-3/88223ce31443b4d784144837d1a6cfb0/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0] /home/arsen/.gradle/caches/transforms-3/06a1903c5a4d5185bba5e233220387e2/transformed/jetified-lifecycle-viewmodel-savedstate-2.2.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.2.0] /home/arsen/.gradle/caches/transforms-3/7354925d60da576a6856cb0bbaf68b82/transformed/lifecycle-viewmodel-2.2.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/arsen/.gradle/caches/transforms-3/bb6a5a59e3760581fc60c73ec7884f90/transformed/interpolator-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.2.0] /home/arsen/.gradle/caches/transforms-3/013270ad17e0ce780879546d6899d58c/transformed/jetified-lifecycle-livedata-core-ktx-2.2.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /home/arsen/.gradle/caches/transforms-3/c0dfeeb34b06b3e53b0e23c7bb5754af/transformed/lifecycle-livedata-2.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.2.0] /home/arsen/.gradle/caches/transforms-3/de686a5d2397d57ae859c938bdfdf0d3/transformed/lifecycle-livedata-core-2.2.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.arch.core:core-runtime:2.1.0] /home/arsen/.gradle/caches/transforms-3/817671c30b2e31defbd77631d74ccee8/transformed/core-runtime-2.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.savedstate:savedstate:1.0.0] /home/arsen/.gradle/caches/transforms-3/f2a36e9e276b7310b305889eec90aa3a/transformed/jetified-savedstate-1.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.cardview:cardview:1.0.0] /home/arsen/.gradle/caches/transforms-3/7bb2dcf8f0b6f9289f238c9ecd7402a2/transformed/cardview-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] /home/arsen/.gradle/caches/transforms-3/579e7170ee29b8994c0d111eab2b4b9d/transformed/documentfile-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/arsen/.gradle/caches/transforms-3/52e9ddc48ece7b74023d0bf686f2bbd1/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] /home/arsen/.gradle/caches/transforms-3/f03adabced5721034b2fb4d9669c69c7/transformed/print-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.annotation:annotation-experimental:1.1.0] /home/arsen/.gradle/caches/transforms-3/d76d5db1c526f5bb3a1a9113b1081208/transformed/jetified-annotation-experimental-1.1.0/AndroidManifest.xml:17:1-24:12
+INJECTED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:17:1-63:12
+INJECTED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:17:1-63:12
+INJECTED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:17:1-63:12
+	package
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:19:5-38
+		INJECTED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml
+		INJECTED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:17:1-63:12
+		INJECTED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml
+	xmlns:tools
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:18:5-51
+	android:versionCode
+		INJECTED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:17:1-63:12
+		INJECTED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:17:11-69
+uses-permission#android.permission.CAMERA
+ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:22:5-65
+	android:name
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:22:22-62
+uses-permission#android.permission.RECORD_AUDIO
+ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:23:5-71
+	android:name
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:23:22-68
+uses-feature#android.hardware.camera.any
+ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:26:5-64
+	android:name
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:26:19-61
+application
+ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:28:5-61:19
+MERGED from [com.google.android.material:material:1.0.0] /home/arsen/.gradle/caches/transforms-3/7c4cd6db574df327620e0cd280cc5fd8/transformed/material-1.0.0/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.material:material:1.0.0] /home/arsen/.gradle/caches/transforms-3/7c4cd6db574df327620e0cd280cc5fd8/transformed/material-1.0.0/AndroidManifest.xml:22:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] /home/arsen/.gradle/caches/transforms-3/1211e4674caa89ed4ed52e7242982549/transformed/constraintlayout-1.1.3/AndroidManifest.xml:9:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] /home/arsen/.gradle/caches/transforms-3/1211e4674caa89ed4ed52e7242982549/transformed/constraintlayout-1.1.3/AndroidManifest.xml:9:5-20
+MERGED from [androidx.core:core:1.8.0] /home/arsen/.gradle/caches/transforms-3/91e102e558bf44937bad81fd1f8f9ea5/transformed/core-1.8.0/AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.8.0] /home/arsen/.gradle/caches/transforms-3/91e102e558bf44937bad81fd1f8f9ea5/transformed/core-1.8.0/AndroidManifest.xml:24:5-89
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/arsen/.gradle/caches/transforms-3/88223ce31443b4d784144837d1a6cfb0/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/arsen/.gradle/caches/transforms-3/88223ce31443b4d784144837d1a6cfb0/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.8.0] /home/arsen/.gradle/caches/transforms-3/91e102e558bf44937bad81fd1f8f9ea5/transformed/core-1.8.0/AndroidManifest.xml:24:18-86
+	android:label
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:30:9-41
+	android:exported
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:32:9-33
+	android:debuggable
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:33:9-34
+	tools:ignore
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:34:9-79
+	android:icon
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:31:9-45
+	android:allowBackup
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:29:9-35
+activity#com.arseniusgen.buffalo.CameraActivity
+ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:36:9-48:20
+	android:clearTaskOnLaunch
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:38:13-45
+	android:exported
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:40:13-36
+	android:theme
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:39:13-44
+	android:name
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:37:13-43
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:43:13-46:29
+action#android.intent.action.MAIN
+ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:44:17-69
+	android:name
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:44:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:45:17-77
+	android:name
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:45:27-74
+uses-sdk
+INJECTED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml
+INJECTED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml
+MERGED from [androidx.databinding:viewbinding:7.4.1] /home/arsen/.gradle/caches/transforms-3/e9784995ea94424bbb63d3a3c6f7b898/transformed/jetified-viewbinding-7.4.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.databinding:viewbinding:7.4.1] /home/arsen/.gradle/caches/transforms-3/e9784995ea94424bbb63d3a3c6f7b898/transformed/jetified-viewbinding-7.4.1/AndroidManifest.xml:5:5-44
+MERGED from [:utils] /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/utils/build/intermediates/merged_manifest/debug/AndroidManifest.xml:20:5-44
+MERGED from [:utils] /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/utils/build/intermediates/merged_manifest/debug/AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-fragment-ktx:2.2.2] /home/arsen/.gradle/caches/transforms-3/a1e79cbee3a2666909ea73cf65b86502/transformed/navigation-fragment-ktx-2.2.2/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-fragment-ktx:2.2.2] /home/arsen/.gradle/caches/transforms-3/a1e79cbee3a2666909ea73cf65b86502/transformed/navigation-fragment-ktx-2.2.2/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment-ktx:1.2.4] /home/arsen/.gradle/caches/transforms-3/0f78c1c484021ec2b275e92899b08a0a/transformed/jetified-fragment-ktx-1.2.4/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment-ktx:1.2.4] /home/arsen/.gradle/caches/transforms-3/0f78c1c484021ec2b275e92899b08a0a/transformed/jetified-fragment-ktx-1.2.4/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-ui-ktx:2.2.2] /home/arsen/.gradle/caches/transforms-3/e96fc368292eac095f13439e2ce6ad20/transformed/navigation-ui-ktx-2.2.2/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-ui-ktx:2.2.2] /home/arsen/.gradle/caches/transforms-3/e96fc368292eac095f13439e2ce6ad20/transformed/navigation-ui-ktx-2.2.2/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.2.2] /home/arsen/.gradle/caches/transforms-3/835b3920ed572e2e3a376fc2084d781a/transformed/navigation-runtime-ktx-2.2.2/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.2.2] /home/arsen/.gradle/caches/transforms-3/835b3920ed572e2e3a376fc2084d781a/transformed/navigation-runtime-ktx-2.2.2/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity-ktx:1.1.0] /home/arsen/.gradle/caches/transforms-3/1dc1dd2ffa1b72bb8cd7d4daf629cbef/transformed/jetified-activity-ktx-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity-ktx:1.1.0] /home/arsen/.gradle/caches/transforms-3/1dc1dd2ffa1b72bb8cd7d4daf629cbef/transformed/jetified-activity-ktx-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core-ktx:1.3.0] /home/arsen/.gradle/caches/transforms-3/492634d7bf82daaf0e5f0cae3a8e6549/transformed/jetified-core-ktx-1.3.0/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.core:core-ktx:1.3.0] /home/arsen/.gradle/caches/transforms-3/492634d7bf82daaf0e5f0cae3a8e6549/transformed/jetified-core-ktx-1.3.0/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.2.0] /home/arsen/.gradle/caches/transforms-3/a4de4c7f45472bdd499961edfda13745/transformed/jetified-lifecycle-runtime-ktx-2.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.2.0] /home/arsen/.gradle/caches/transforms-3/a4de4c7f45472bdd499961edfda13745/transformed/jetified-lifecycle-runtime-ktx-2.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0] /home/arsen/.gradle/caches/transforms-3/6fe9e7da90077c40fff0cf123d82cce3/transformed/jetified-lifecycle-viewmodel-ktx-2.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0] /home/arsen/.gradle/caches/transforms-3/6fe9e7da90077c40fff0cf123d82cce3/transformed/jetified-lifecycle-viewmodel-ktx-2.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-ui:2.2.2] /home/arsen/.gradle/caches/transforms-3/605a1804d8d1b9a45cbdfc2063a4d071/transformed/navigation-ui-2.2.2/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-ui:2.2.2] /home/arsen/.gradle/caches/transforms-3/605a1804d8d1b9a45cbdfc2063a4d071/transformed/navigation-ui-2.2.2/AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.material:material:1.0.0] /home/arsen/.gradle/caches/transforms-3/7c4cd6db574df327620e0cd280cc5fd8/transformed/material-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.material:material:1.0.0] /home/arsen/.gradle/caches/transforms-3/7c4cd6db574df327620e0cd280cc5fd8/transformed/material-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat:1.1.0] /home/arsen/.gradle/caches/transforms-3/da0f26b7d8c64161604608d061a0d79e/transformed/appcompat-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat:1.1.0] /home/arsen/.gradle/caches/transforms-3/da0f26b7d8c64161604608d061a0d79e/transformed/appcompat-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] /home/arsen/.gradle/caches/transforms-3/1211e4674caa89ed4ed52e7242982549/transformed/constraintlayout-1.1.3/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] /home/arsen/.gradle/caches/transforms-3/1211e4674caa89ed4ed52e7242982549/transformed/constraintlayout-1.1.3/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.graphics:graphics-core:1.0.0-alpha05] /home/arsen/.gradle/caches/transforms-3/4c3e96b63dfbdba7c89bd16017383314/transformed/jetified-graphics-core-1.0.0-alpha05/AndroidManifest.xml:5:5-44
+MERGED from [androidx.graphics:graphics-core:1.0.0-alpha05] /home/arsen/.gradle/caches/transforms-3/4c3e96b63dfbdba7c89bd16017383314/transformed/jetified-graphics-core-1.0.0-alpha05/AndroidManifest.xml:5:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] /home/arsen/.gradle/caches/transforms-3/e4d5f9ba463be5980b066660ed729e90/transformed/recyclerview-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] /home/arsen/.gradle/caches/transforms-3/e4d5f9ba463be5980b066660ed729e90/transformed/recyclerview-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.exifinterface:exifinterface:1.2.0] /home/arsen/.gradle/caches/transforms-3/bb0a73b556c6869ff7962f3e10993437/transformed/exifinterface-1.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.exifinterface:exifinterface:1.2.0] /home/arsen/.gradle/caches/transforms-3/bb0a73b556c6869ff7962f3e10993437/transformed/exifinterface-1.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /home/arsen/.gradle/caches/transforms-3/f267b68b85d0aaa556d235f1b54f31fc/transformed/legacy-support-core-ui-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /home/arsen/.gradle/caches/transforms-3/f267b68b85d0aaa556d235f1b54f31fc/transformed/legacy-support-core-ui-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/arsen/.gradle/caches/transforms-3/bfb3e95fb0d4a806ba1d7f7d8df0111b/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/arsen/.gradle/caches/transforms-3/bfb3e95fb0d4a806ba1d7f7d8df0111b/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat-resources:1.1.0] /home/arsen/.gradle/caches/transforms-3/0149031db8666e54ede9cc80c59690cb/transformed/jetified-appcompat-resources-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.1.0] /home/arsen/.gradle/caches/transforms-3/0149031db8666e54ede9cc80c59690cb/transformed/jetified-appcompat-resources-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /home/arsen/.gradle/caches/transforms-3/215fd7ec7ab64b8006c52d37db7d24ed/transformed/drawerlayout-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /home/arsen/.gradle/caches/transforms-3/215fd7ec7ab64b8006c52d37db7d24ed/transformed/drawerlayout-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-fragment:2.2.2] /home/arsen/.gradle/caches/transforms-3/119b167fab358b37e7a61a8c31150353/transformed/navigation-fragment-2.2.2/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-fragment:2.2.2] /home/arsen/.gradle/caches/transforms-3/119b167fab358b37e7a61a8c31150353/transformed/navigation-fragment-2.2.2/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.2.4] /home/arsen/.gradle/caches/transforms-3/88b7343a03116d8fd8f06bdf1ef4c499/transformed/fragment-1.2.4/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.2.4] /home/arsen/.gradle/caches/transforms-3/88b7343a03116d8fd8f06bdf1ef4c499/transformed/fragment-1.2.4/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/arsen/.gradle/caches/transforms-3/ff22b7e2e91e43039c2d040c16c8b477/transformed/viewpager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/arsen/.gradle/caches/transforms-3/ff22b7e2e91e43039c2d040c16c8b477/transformed/viewpager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /home/arsen/.gradle/caches/transforms-3/b9870a94f9c21dd2feeece807aacc745/transformed/coordinatorlayout-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /home/arsen/.gradle/caches/transforms-3/b9870a94f9c21dd2feeece807aacc745/transformed/coordinatorlayout-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /home/arsen/.gradle/caches/transforms-3/1667381f84c02d36708ad2ad33277c9e/transformed/slidingpanelayout-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /home/arsen/.gradle/caches/transforms-3/1667381f84c02d36708ad2ad33277c9e/transformed/slidingpanelayout-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] /home/arsen/.gradle/caches/transforms-3/7ed1859241097d0c08094e00b91f1726/transformed/customview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] /home/arsen/.gradle/caches/transforms-3/7ed1859241097d0c08094e00b91f1726/transformed/customview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /home/arsen/.gradle/caches/transforms-3/1acc9462f9964d5c96dcdcfc0decb631/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /home/arsen/.gradle/caches/transforms-3/1acc9462f9964d5c96dcdcfc0decb631/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /home/arsen/.gradle/caches/transforms-3/d2a6141ce51be0af15385691a72fad72/transformed/vectordrawable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /home/arsen/.gradle/caches/transforms-3/d2a6141ce51be0af15385691a72fad72/transformed/vectordrawable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.transition:transition:1.0.1] /home/arsen/.gradle/caches/transforms-3/15bdb37f7d33b51e717756ce05ccdb40/transformed/transition-1.0.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.transition:transition:1.0.1] /home/arsen/.gradle/caches/transforms-3/15bdb37f7d33b51e717756ce05ccdb40/transformed/transition-1.0.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/arsen/.gradle/caches/transforms-3/d8ec64014421995740d402059c38f6de/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/arsen/.gradle/caches/transforms-3/d8ec64014421995740d402059c38f6de/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /home/arsen/.gradle/caches/transforms-3/4e8244ae4c729a431270e39e97633e25/transformed/loader-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /home/arsen/.gradle/caches/transforms-3/4e8244ae4c729a431270e39e97633e25/transformed/loader-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-runtime:2.2.2] /home/arsen/.gradle/caches/transforms-3/454640a0ce4a2b3449d090387259f8f4/transformed/navigation-runtime-2.2.2/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-runtime:2.2.2] /home/arsen/.gradle/caches/transforms-3/454640a0ce4a2b3449d090387259f8f4/transformed/navigation-runtime-2.2.2/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity:1.1.0] /home/arsen/.gradle/caches/transforms-3/73c217efdd9c18c3c9af19f2c90f289a/transformed/jetified-activity-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity:1.1.0] /home/arsen/.gradle/caches/transforms-3/73c217efdd9c18c3c9af19f2c90f289a/transformed/jetified-activity-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-common-ktx:2.2.2] /home/arsen/.gradle/caches/transforms-3/a2568c2ad9b910e305ad8a2c4c1d4d0c/transformed/navigation-common-ktx-2.2.2/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-common-ktx:2.2.2] /home/arsen/.gradle/caches/transforms-3/a2568c2ad9b910e305ad8a2c4c1d4d0c/transformed/navigation-common-ktx-2.2.2/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-common:2.2.2] /home/arsen/.gradle/caches/transforms-3/f20d331ff7637828c18eca12dafdf58e/transformed/navigation-common-2.2.2/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-common:2.2.2] /home/arsen/.gradle/caches/transforms-3/f20d331ff7637828c18eca12dafdf58e/transformed/navigation-common-2.2.2/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /home/arsen/.gradle/caches/transforms-3/1b6083486e0e6764462559cee5f440ef/transformed/swiperefreshlayout-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /home/arsen/.gradle/caches/transforms-3/1b6083486e0e6764462559cee5f440ef/transformed/swiperefreshlayout-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /home/arsen/.gradle/caches/transforms-3/7c5e0c78585732f4918b778f3a1f9f8c/transformed/asynclayoutinflater-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /home/arsen/.gradle/caches/transforms-3/7c5e0c78585732f4918b778f3a1f9f8c/transformed/asynclayoutinflater-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.8.0] /home/arsen/.gradle/caches/transforms-3/91e102e558bf44937bad81fd1f8f9ea5/transformed/core-1.8.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.8.0] /home/arsen/.gradle/caches/transforms-3/91e102e558bf44937bad81fd1f8f9ea5/transformed/core-1.8.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.3.1] /home/arsen/.gradle/caches/transforms-3/41b2daf39db2d9100b366755e9e5f71c/transformed/lifecycle-runtime-2.3.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.3.1] /home/arsen/.gradle/caches/transforms-3/41b2daf39db2d9100b366755e9e5f71c/transformed/lifecycle-runtime-2.3.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/arsen/.gradle/caches/transforms-3/88223ce31443b4d784144837d1a6cfb0/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/arsen/.gradle/caches/transforms-3/88223ce31443b4d784144837d1a6cfb0/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0] /home/arsen/.gradle/caches/transforms-3/06a1903c5a4d5185bba5e233220387e2/transformed/jetified-lifecycle-viewmodel-savedstate-2.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0] /home/arsen/.gradle/caches/transforms-3/06a1903c5a4d5185bba5e233220387e2/transformed/jetified-lifecycle-viewmodel-savedstate-2.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.2.0] /home/arsen/.gradle/caches/transforms-3/7354925d60da576a6856cb0bbaf68b82/transformed/lifecycle-viewmodel-2.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.2.0] /home/arsen/.gradle/caches/transforms-3/7354925d60da576a6856cb0bbaf68b82/transformed/lifecycle-viewmodel-2.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/arsen/.gradle/caches/transforms-3/bb6a5a59e3760581fc60c73ec7884f90/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/arsen/.gradle/caches/transforms-3/bb6a5a59e3760581fc60c73ec7884f90/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.2.0] /home/arsen/.gradle/caches/transforms-3/013270ad17e0ce780879546d6899d58c/transformed/jetified-lifecycle-livedata-core-ktx-2.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.2.0] /home/arsen/.gradle/caches/transforms-3/013270ad17e0ce780879546d6899d58c/transformed/jetified-lifecycle-livedata-core-ktx-2.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /home/arsen/.gradle/caches/transforms-3/c0dfeeb34b06b3e53b0e23c7bb5754af/transformed/lifecycle-livedata-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /home/arsen/.gradle/caches/transforms-3/c0dfeeb34b06b3e53b0e23c7bb5754af/transformed/lifecycle-livedata-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.2.0] /home/arsen/.gradle/caches/transforms-3/de686a5d2397d57ae859c938bdfdf0d3/transformed/lifecycle-livedata-core-2.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.2.0] /home/arsen/.gradle/caches/transforms-3/de686a5d2397d57ae859c938bdfdf0d3/transformed/lifecycle-livedata-core-2.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.arch.core:core-runtime:2.1.0] /home/arsen/.gradle/caches/transforms-3/817671c30b2e31defbd77631d74ccee8/transformed/core-runtime-2.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.arch.core:core-runtime:2.1.0] /home/arsen/.gradle/caches/transforms-3/817671c30b2e31defbd77631d74ccee8/transformed/core-runtime-2.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate:1.0.0] /home/arsen/.gradle/caches/transforms-3/f2a36e9e276b7310b305889eec90aa3a/transformed/jetified-savedstate-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate:1.0.0] /home/arsen/.gradle/caches/transforms-3/f2a36e9e276b7310b305889eec90aa3a/transformed/jetified-savedstate-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.cardview:cardview:1.0.0] /home/arsen/.gradle/caches/transforms-3/7bb2dcf8f0b6f9289f238c9ecd7402a2/transformed/cardview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] /home/arsen/.gradle/caches/transforms-3/7bb2dcf8f0b6f9289f238c9ecd7402a2/transformed/cardview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /home/arsen/.gradle/caches/transforms-3/579e7170ee29b8994c0d111eab2b4b9d/transformed/documentfile-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /home/arsen/.gradle/caches/transforms-3/579e7170ee29b8994c0d111eab2b4b9d/transformed/documentfile-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/arsen/.gradle/caches/transforms-3/52e9ddc48ece7b74023d0bf686f2bbd1/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/arsen/.gradle/caches/transforms-3/52e9ddc48ece7b74023d0bf686f2bbd1/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /home/arsen/.gradle/caches/transforms-3/f03adabced5721034b2fb4d9669c69c7/transformed/print-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /home/arsen/.gradle/caches/transforms-3/f03adabced5721034b2fb4d9669c69c7/transformed/print-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.1.0] /home/arsen/.gradle/caches/transforms-3/d76d5db1c526f5bb3a1a9113b1081208/transformed/jetified-annotation-experimental-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.annotation:annotation-experimental:1.1.0] /home/arsen/.gradle/caches/transforms-3/d76d5db1c526f5bb3a1a9113b1081208/transformed/jetified-annotation-experimental-1.1.0/AndroidManifest.xml:20:5-22:41
+INJECTED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml
+INJECTED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml
+		INJECTED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml
+		INJECTED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:56:13-58:53
+	android:resource
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:58:17-51
+	android:name
+		ADDED from /media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/src/main/AndroidManifest.xml:57:17-67
