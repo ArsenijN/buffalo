@@ -1,50 +1,38 @@
 [
     {
-        "merged": "/home/arsen/.gradle/daemon/7.5.1/com.arseniusgen.buffalo.app-merged_res-22:/drawable-hdpi_ic_launcher.png.flat",
-        "source": "/home/arsen/.gradle/daemon/7.5.1/com.arseniusgen.buffalo.app-main-24:/drawable-hdpi/ic_launcher.png"
+        "merged": "com.arseniusgen.buffalo.app-merged_res-22:/drawable-hdpi_ic_launcher.png.flat",
+        "source": "com.arseniusgen.buffalo.app-main-24:/drawable-hdpi/ic_launcher.png"
     },
     {
-        "merged": "/home/arsen/.gradle/daemon/7.5.1/com.arseniusgen.buffalo.app-merged_res-22:/navigation_nav_graph.xml.flat",
-        "source": "/home/arsen/.gradle/daemon/7.5.1/com.arseniusgen.buffalo.app-main-24:/navigation/nav_graph.xml"
-    },
-    {
-        "merged": "/home/arsen/.gradle/daemon/7.5.1/com.arseniusgen.buffalo.app-merged_res-22:/drawable-xxhdpi_ic_launcher.png.flat",
-        "source": "/home/arsen/.gradle/daemon/7.5.1/com.arseniusgen.buffalo.app-main-24:/drawable-xxhdpi/ic_launcher.png"
-    },
-    {
-        "merged": "/home/arsen/.gradle/daemon/7.5.1/com.arseniusgen.buffalo.app-merged_res-22:/layout_fragment_preview.xml.flat",
-        "source": "/home/arsen/.gradle/daemon/7.5.1/com.arseniusgen.buffalo.app-main-24:/layout/fragment_preview.xml"
-    },
-    {
-        "merged": "/home/arsen/.gradle/daemon/7.5.1/com.arseniusgen.buffalo.app-merged_res-22:/xml_file_paths.xml.flat",
-        "source": "/home/arsen/.gradle/daemon/7.5.1/com.arseniusgen.buffalo.app-main-24:/xml/file_paths.xml"
-    },
-    {
-        "merged": "/home/arsen/.gradle/daemon/7.5.1/com.arseniusgen.buffalo.app-merged_res-22:/drawable-mdpi_ic_launcher.png.flat",
-        "source": "/home/arsen/.gradle/daemon/7.5.1/com.arseniusgen.buffalo.app-main-24:/drawable-mdpi/ic_launcher.png"
-    },
-    {
-        "merged": "/home/arsen/.gradle/daemon/7.5.1/com.arseniusgen.buffalo.app-merged_res-22:/layout_activity_camera.xml.flat",
-        "source": "/home/arsen/.gradle/daemon/7.5.1/com.arseniusgen.buffalo.app-main-24:/layout/activity_camera.xml"
+        "merged": "com.arseniusgen.buffalo.app-merged_res-22:/xml_file_paths.xml.flat",
+        "source": "com.arseniusgen.buffalo.app-main-24:/xml/file_paths.xml"
     },
     {
         "merged": "com.arseniusgen.buffalo.app-merged_res-22:/navigation_nav_graph.xml.flat",
         "source": "com.arseniusgen.buffalo.app-main-24:/navigation/nav_graph.xml"
     },
     {
-        "merged": "/home/arsen/.gradle/daemon/7.5.1/com.arseniusgen.buffalo.app-merged_res-22:/drawable-xhdpi_ic_launcher.png.flat",
-        "source": "/home/arsen/.gradle/daemon/7.5.1/com.arseniusgen.buffalo.app-main-24:/drawable-xhdpi/ic_launcher.png"
+        "merged": "com.arseniusgen.buffalo.app-merged_res-22:/drawable-xxhdpi_ic_launcher.png.flat",
+        "source": "com.arseniusgen.buffalo.app-main-24:/drawable-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.arseniusgen.buffalo.app-merged_res-22:/layout_activity_camera.xml.flat",
+        "source": "com.arseniusgen.buffalo.app-main-24:/layout/activity_camera.xml"
     },
     {
         "merged": "com.arseniusgen.buffalo.app-merged_res-22:/layout_fragment_preview.xml.flat",
         "source": "com.arseniusgen.buffalo.app-main-24:/layout/fragment_preview.xml"
     },
     {
-        "merged": "/home/arsen/.gradle/daemon/7.5.1/com.arseniusgen.buffalo.app-merged_res-22:/layout-land_fragment_preview.xml.flat",
-        "source": "/home/arsen/.gradle/daemon/7.5.1/com.arseniusgen.buffalo.app-main-24:/layout-land/fragment_preview.xml"
+        "merged": "com.arseniusgen.buffalo.app-merged_res-22:/drawable-xhdpi_ic_launcher.png.flat",
+        "source": "com.arseniusgen.buffalo.app-main-24:/drawable-xhdpi/ic_launcher.png"
     },
     {
         "merged": "com.arseniusgen.buffalo.app-merged_res-22:/layout-land_fragment_preview.xml.flat",
         "source": "com.arseniusgen.buffalo.app-main-24:/layout-land/fragment_preview.xml"
+    },
+    {
+        "merged": "com.arseniusgen.buffalo.app-merged_res-22:/drawable-mdpi_ic_launcher.png.flat",
+        "source": "com.arseniusgen.buffalo.app-main-24:/drawable-mdpi/ic_launcher.png"
     }
 ]

@@ -4,11 +4,7 @@
         "source": "com.arseniusgen.buffalo.app-main-24:/layout/fragment_preview.xml"
     },
     {
-        "merged": "/home/arsen/.gradle/daemon/7.5.1/com.arseniusgen.buffalo.app-mergeDebugResources-21:/layout/fragment_preview.xml",
-        "source": "/home/arsen/.gradle/daemon/7.5.1/com.arseniusgen.buffalo.app-main-24:/layout/fragment_preview.xml"
-    },
-    {
-        "merged": "/home/arsen/.gradle/daemon/7.5.1/com.arseniusgen.buffalo.app-mergeDebugResources-21:/layout/activity_camera.xml",
-        "source": "/home/arsen/.gradle/daemon/7.5.1/com.arseniusgen.buffalo.app-main-24:/layout/activity_camera.xml"
+        "merged": "com.arseniusgen.buffalo.app-mergeDebugResources-21:/layout/activity_camera.xml",
+        "source": "com.arseniusgen.buffalo.app-main-24:/layout/activity_camera.xml"
     }
 ]

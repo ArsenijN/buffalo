@@ -323,7 +323,7 @@ private val EGL_SMPTE2086_MAX_LUMINANCE_EXT            = 0x3349
 private val EGL_SMPTE2086_MIN_LUMINANCE_EXT            = 0x334A
 
 class HardwarePipeline(width: Int, height: Int, fps: Int, filterOn: Boolean, transfer: Int,
-        dynamicRange: Long, characteristics: CameraCharacteristics, encoder: EncoderWrapper,
+        dynamicRange: Long, characteristics: CameraCharacteristics, encoder: StreamEncoder,
         viewFinder: AutoFitSurfaceView) : Pipeline(width, height, fps, filterOn, dynamicRange,
                 characteristics, encoder, viewFinder) {
     private val renderThread: HandlerThread by lazy {
@@ -422,7 +422,7 @@ class HardwarePipeline(width: Int, height: Int, fps: Int, filterOn: Boolean, tra
 
     private class RenderHandler(looper: Looper, width: Int, height: Int, fps: Int,
             filterOn: Boolean, transfer: Int, dynamicRange: Long,
-            characteristics: CameraCharacteristics, encoder: EncoderWrapper,
+            characteristics: CameraCharacteristics, encoder: StreamEncoder,
             viewFinder: AutoFitSurfaceView): Handler(looper),
             SurfaceTexture.OnFrameAvailableListener {
         companion object {

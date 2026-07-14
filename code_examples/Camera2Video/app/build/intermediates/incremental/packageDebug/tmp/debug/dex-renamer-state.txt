@@ -1,4 +1,4 @@
-#Wed Jul 15 01:51:05 EEST 2026
+#Wed Jul 15 02:35:06 EEST 2026
 base.0=/media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/build/intermediates/dex/debug/mergeExtDexDebug/classes.dex
 base.1=/media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/build/intermediates/dex/debug/mergeLibDexDebug/8/classes.dex
 base.2=/media/arsen/COMPAT_LAYER-KDEN+WIN11/CODE/other/buffalo/code_examples/Camera2Video/app/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex

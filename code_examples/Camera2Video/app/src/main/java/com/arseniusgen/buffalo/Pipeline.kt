@@ -24,7 +24,7 @@ import android.view.Surface
 import com.arseniusgen.android.camera.utils.AutoFitSurfaceView
 
 abstract class Pipeline(width: Int, height: Int, fps: Int, filterOn: Boolean,
-        dynamicRange: Long, characteristics: CameraCharacteristics, encoder: EncoderWrapper,
+        dynamicRange: Long, characteristics: CameraCharacteristics, encoder: StreamEncoder,
         viewFinder: AutoFitSurfaceView) {
     protected val width = width
     protected val height = height

@@ -21,6 +21,8 @@
     <!-- Permission declarations -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <!-- A camera with burst capability is required to use this application -->
     <uses-feature android:name="android.hardware.camera.any" />
@@ -31,6 +33,7 @@
         android:icon="@drawable/ic_launcher"
         android:exported="false"
         android:debuggable="true"
+        android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,HardcodedDebugMode">
 
         <activity

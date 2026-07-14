@@ -25,7 +25,7 @@ import android.view.Surface
 import com.arseniusgen.android.camera.utils.AutoFitSurfaceView
 
 class SoftwarePipeline(width: Int, height: Int, fps: Int, filterOn: Boolean,
-        dynamicRange: Long, characteristics: CameraCharacteristics, encoder: EncoderWrapper,
+        dynamicRange: Long, characteristics: CameraCharacteristics, encoder: StreamEncoder,
         viewFinder: AutoFitSurfaceView) : Pipeline(width, height, fps, filterOn,
                 dynamicRange, characteristics, encoder, viewFinder) {
 

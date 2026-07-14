@@ -18,7 +18,6 @@ package com.arseniusgen.buffalo.fragments
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.ColorSpace
 import android.hardware.camera2.CameraCaptureSession
@@ -31,7 +30,6 @@ import android.hardware.camera2.params.ColorSpaceProfiles
 import android.hardware.camera2.params.DynamicRangeProfiles
 import android.hardware.camera2.params.OutputConfiguration
 import android.hardware.camera2.params.SessionConfiguration
-import android.media.MediaScannerConnection
 import android.os.Build
 import android.os.Bundle
 import android.os.ConditionVariable
@@ -45,19 +43,18 @@ import android.view.Surface
 import android.view.SurfaceHolder
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.arseniusgen.android.camera.utils.getPreviewOutputSize
-import com.arseniusgen.buffalo.BuildConfig
 import com.arseniusgen.buffalo.CameraActivity
-import com.arseniusgen.buffalo.EncoderWrapper
+import com.arseniusgen.buffalo.StreamEncoder
+import com.arseniusgen.buffalo.TcpFrameSender
+import com.arseniusgen.buffalo.ControlWebSocketClient
 import com.arseniusgen.buffalo.R
 import com.arseniusgen.buffalo.databinding.FragmentPreviewBinding
 import com.arseniusgen.buffalo.HardwarePipeline
@@ -67,10 +64,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
-import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import java.util.concurrent.Executor
 import java.util.concurrent.RejectedExecutionException
 import kotlin.coroutines.resume
@@ -78,6 +71,12 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 class PreviewFragment : Fragment() {
+
+    // TODO: SPECS.md 1.1 calls for these to be entered manually in a settings screen for v0.
+    // Hardcoded for now to get the pipe working end-to-end; wire up real fields next.
+    private val obsHost = "192.168.1.50"
+    private val obsVideoPort = 5757
+    private val obsControlPort = 5758
 
     private class HandlerExecutor(handler: Handler) : Executor {
         private val mHandler = handler
@@ -127,9 +126,6 @@ class PreviewFragment : Fragment() {
         cameraManager.getCameraCharacteristics(args.cameraId)
     }
 
-    /** File where the recording will be saved */
-    private val outputFile: File by lazy { createFile(requireContext(), "mp4") }
-
     /**
      * Setup a [Surface] for the encoder
      */
@@ -137,8 +133,25 @@ class PreviewFragment : Fragment() {
         encoder.getInputSurface()
     }
 
-    /** [EncoderWrapper] utility class */
-    private val encoder: EncoderWrapper by lazy { createEncoder() }
+    /** [StreamEncoder] utility class -- produces raw Annex-B access units instead of a file */
+    private val encoder: StreamEncoder by lazy { createEncoder() }
+
+    /** Video channel to the OBS plugin (SPECS.md 1.1) */
+    private val tcpSender: TcpFrameSender by lazy {
+        TcpFrameSender(obsHost, obsVideoPort) { connected ->
+            Log.d(TAG, "video channel connected=$connected")
+        }
+    }
+
+    /** Control channel to the OBS plugin (SPECS.md 1.1) */
+    private val controlClient: ControlWebSocketClient by lazy {
+        ControlWebSocketClient(
+            host = obsHost,
+            port = obsControlPort,
+            deviceModel = Build.MODEL,
+            resolution = "${args.width}x${args.height}"
+        ) { bps -> encoder.setBitrate(bps) }
+    }
 
     /** [HandlerThread] where all camera operations run */
     private val cameraThread = HandlerThread("CameraThread").apply { start() }
@@ -235,24 +248,26 @@ class PreviewFragment : Fragment() {
         return recordingStarted && !recordingComplete
     }
 
-    private fun createEncoder(): EncoderWrapper {
+    private fun createEncoder(): StreamEncoder {
         var width = args.width
         var height = args.height
-        var orientationHint = orientation
 
         if (args.useHardware) {
             if (orientation == 90 || orientation == 270) {
                 width = args.height
                 height = args.width
             }
-            orientationHint = 0
         }
 
-        return EncoderWrapper(
-            width, height, RECORDER_VIDEO_BITRATE, args.fps,
-            args.dynamicRange, orientationHint, outputFile, args.useMediaRecorder,
-            args.videoCodec
-        )
+        // buffalo v0 is H264 baseline only (SPECS.md 1.1) -- StreamEncoder doesn't support the
+        // MediaRecorder-backed path EncoderWrapper offered, so make sure the nav args agree.
+        check(!args.useMediaRecorder) {
+            "buffalo streaming requires the MediaCodec path; select useMediaRecorder=false"
+        }
+
+        return StreamEncoder(width, height, RECORDER_VIDEO_BITRATE, args.fps) { data, isKeyFrame, _ ->
+            tcpSender.offer(data, isKeyFrame)
+        }
     }
 
     /**
@@ -295,8 +310,10 @@ class PreviewFragment : Fragment() {
 
                         pipeline.actionDown(encoderSurface)
 
-                        // Finalizes encoder setup and starts recording
+                        // Finalizes encoder setup and starts streaming
                         recordingStarted = true
+                        tcpSender.start()
+                        controlClient.connect()
                         encoder.start()
                         cvRecordingStarted.open()
                         pipeline.startRecording()
@@ -379,34 +396,12 @@ class PreviewFragment : Fragment() {
 
                     pipeline.cleanup()
 
-                    Log.d(TAG, "Recording stopped. Output file: $outputFile")
+                    Log.d(TAG, "Streaming stopped")
 
-                    if (encoder.shutdown()) {
-                        // Broadcasts the media file to the rest of the system
-                        MediaScannerConnection.scanFile(
-                                requireView().context, arrayOf(outputFile.absolutePath), null, null)
+                    controlClient.disconnect()
+                    tcpSender.stop()
 
-                        if (outputFile.exists()) {
-                            // Launch external activity via intent to play video recorded using our provider
-                            startActivity(Intent().apply {
-                                action = Intent.ACTION_VIEW
-                                type = MimeTypeMap.getSingleton()
-                                        .getMimeTypeFromExtension(outputFile.extension)
-                                val authority = "${BuildConfig.APPLICATION_ID}.provider"
-                                data = FileProvider.getUriForFile(view.context, authority, outputFile)
-                                flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                                        Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            })
-                        } else {
-                            // TODO: 
-                            //  1. Move the callback to ACTION_DOWN, activating it on the second press
-                            //  2. Add an animation to the button before the user can press it again
-                            Handler(Looper.getMainLooper()).post {
-                                Toast.makeText(activity, R.string.error_file_not_found,
-                                        Toast.LENGTH_LONG).show()
-                            }
-                        }
-                    } else {
+                    if (!encoder.shutdown()) {
                         Handler(Looper.getMainLooper()).post {
                             Toast.makeText(activity, R.string.recorder_shutdown_error,
                                     Toast.LENGTH_LONG).show()
@@ -547,10 +542,5 @@ class PreviewFragment : Fragment() {
         private const val RECORDER_VIDEO_BITRATE: Int = 10_000_000
         private const val MIN_REQUIRED_RECORDING_TIME_MILLIS: Long = 1000L
 
-        /** Creates a [File] named with the current date and time */
-        private fun createFile(context: Context, extension: String): File {
-            val sdf = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_SSS", Locale.US)
-            return File(context.filesDir, "VID_${sdf.format(Date())}.$extension")
-        }
     }
 }
