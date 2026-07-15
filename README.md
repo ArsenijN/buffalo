@@ -41,14 +41,31 @@ premium in app that sometimes bugs out with UI where you can't see the nav
 buttons to control the camera image and also it doesn't work over USB and 
 also..." and started to brainstorm the idea with my assistent of choice, and I 
 started to realize, that:
-- I don't know how to make an OBS addon
+- I don't know how to make an OBS plugin
 - I don't know how to make an Android app except as via 
 [MIT App Inventor](https://appinventor.mit.edu/) (as I did before, back in the 
 2023-2024)
 - Particularly, I don't know how to capture highest quality video from a phone 
 and then somehow feed it into the OBS
 
-Those questions now almost resolved with step-by-step codebase changes and 
-thing that my assistent handles that amount of code example and additionally 
-Rust-based OBS addon (yes, it was easier to maintain as turns out) should just 
-work (in theory)
+Those questions now almost resolved with chosen step-by-step codebase changes 
+and advantage that my assistent can handle that large amount of code from 
+codebase and additionally develop Rust-based OBS addon (yes, it should be 
+easier to maintain as turns out - only some of the calls are in `unsafe` case) 
+should just work (in theory) after the code for everything will be finished
+
+Please wait until the more-less stable release to use the buffalo - I will not 
+take responcibility on this software until it's released public version that 
+indeed should work without any problems (aka V1.x or higher)
+
+If you found a bug, security problem, want to improve the software or need any 
+help with it's usage (e.g. "No documentation is available for X feature", or "Y 
+thing doesn't work in my environment" - feel free to open an issue on GitHub - 
+I'll be happy to hear anyone's thoughts and pleases for buffalo, and will try 
+to assist with it
+
+buffalo is open for new contributors and idea inspirations
+
+Current buffalo state: bare-bones changes to the Android example, flavoring it -
+works via the Python listener code; OBS plugin is still in-progress (doesn't 
+compile)
