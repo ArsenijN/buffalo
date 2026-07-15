@@ -75,7 +75,7 @@ class PreviewFragment : Fragment() {
 
     // TODO: SPECS.md 1.1 calls for these to be entered manually in a settings screen for v0.
     // Hardcoded for now to get the pipe working end-to-end; wire up real fields next.
-    private val obsHost = "192.168.1.50"
+    private val obsHost = "192.168.31.154"
     private val obsVideoPort = 5757
     private val obsControlPort = 5758
 
