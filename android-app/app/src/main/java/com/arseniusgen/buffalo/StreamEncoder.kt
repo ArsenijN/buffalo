@@ -24,6 +24,12 @@ import android.util.Log
 import android.view.Surface
 import java.nio.ByteBuffer
 
+/** Thrown when this device's hardware encoder can't handle the requested resolution at all --
+ *  distinct from other MediaCodec failures so PreviewFragment can catch this one specifically
+ *  and show a clear "pick a different resolution" message instead of crashing. */
+class UnsupportedResolutionException(width: Int, height: Int, cause: Throwable? = null) :
+    Exception("This device's H264 encoder can't handle ${width}x$height", cause)
+
 class StreamEncoder(
     width: Int,
     height: Int,
@@ -105,15 +111,28 @@ class StreamEncoder(
             }
         })
 
+        // Fail fast with a clear reason before even trying configure() -- this is what was
+        // missing before: at resolutions the hardware encoder genuinely can't do at all,
+        // BOTH the baseline-profile attempt and the profile-less fallback below throw, and
+        // the fallback's exception was going uncaught. Check capabilities up front so we
+        // throw exactly once, with a message that says what's actually wrong.
+        val videoCaps = try {
+            codec.codecInfo.getCapabilitiesForType(MIME).videoCapabilities
+        } catch (e: Exception) {
+            null // some devices/codecs don't report this cleanly -- don't block on it, just skip the check
+        }
+        if (videoCaps != null && !videoCaps.isSizeSupported(width, height)) {
+            codec.release()
+            throw UnsupportedResolutionException(width, height)
+        }
+
         try {
             codec.configure(format, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
         } catch (e: Exception) {
             // Forcing Baseline profile without an explicit KEY_LEVEL can be rejected by some
             // vendor encoders at certain resolutions (level defaults too low for the pixel
-            // count) -- this is the most likely cause of "some resolutions produce a black
-            // screen and then a crash". Fall back to whatever profile/level the device wants
-            // to pick on its own rather than taking the whole app down; SPECS.md's "baseline,
-            // no optimizations" is a target for v0, not something worth crashing over yet.
+            // count) even when the resolution itself is otherwise supported. Retry once
+            // without forcing a profile before giving up.
             Log.w(TAG, "configure() failed with forced Baseline profile at ${width}x$height, " +
                     "retrying without a forced profile", e)
             val fallbackFormat = MediaFormat.createVideoFormat(MIME, width, height).apply {
@@ -125,7 +144,18 @@ class StreamEncoder(
                 // which the (still-stubbed) OBS decoder should handle fine via openh264 since
                 // that's a general-purpose H264 decoder, not a Baseline-only one.
             }
-            codec.configure(fallbackFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
+            try {
+                codec.configure(fallbackFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
+            } catch (e2: Exception) {
+                // Both attempts failed -- this resolution just isn't supported, full stop.
+                // Convert to our typed exception instead of letting a raw
+                // IllegalArgumentException surface wherever `encoder` happens to first get
+                // touched (which, per the crash report, can be somewhere unrelated like
+                // onDestroy's cleanup path if the earlier lazy-init call site was never
+                // reached).
+                codec.release()
+                throw UnsupportedResolutionException(width, height, e2)
+            }
         }
     }
 

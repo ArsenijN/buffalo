@@ -53,6 +53,7 @@ import androidx.navigation.fragment.navArgs
 import com.arseniusgen.android.camera.utils.getPreviewOutputSize
 import com.arseniusgen.buffalo.CameraActivity
 import com.arseniusgen.buffalo.StreamEncoder
+import com.arseniusgen.buffalo.UnsupportedResolutionException
 import com.arseniusgen.buffalo.TcpFrameSender
 import com.arseniusgen.buffalo.ControlWebSocketClient
 import com.arseniusgen.buffalo.R
@@ -278,16 +279,24 @@ class PreviewFragment : Fragment() {
      */
     @SuppressLint("ClickableViewAccessibility")
     private fun initializeCamera() = lifecycleScope.launch(Dispatchers.Main) {
+        try {
+            // Open the selected camera
+            camera = openCamera(cameraManager, args.cameraId, cameraHandler)
 
-        // Open the selected camera
-        camera = openCamera(cameraManager, args.cameraId, cameraHandler)
+            // Creates list of Surfaces where the camera will output frames -- this is also the
+            // first touch of the lazy `pipeline`/`encoder` vals, so this is where an
+            // UnsupportedResolutionException from StreamEncoder actually surfaces.
+            val previewTargets = pipeline.getPreviewTargets()
 
-        // Creates list of Surfaces where the camera will output frames
-        val previewTargets = pipeline.getPreviewTargets()
-
-        // Start a capture session using our open camera and list of Surfaces where frames will go
-        session = createCaptureSession(camera, previewTargets, cameraHandler,
-                recordingCompleteOnClose = (pipeline !is SoftwarePipeline))
+            // Start a capture session using our open camera and list of Surfaces where frames will go
+            session = createCaptureSession(camera, previewTargets, cameraHandler,
+                    recordingCompleteOnClose = (pipeline !is SoftwarePipeline))
+        } catch (e: UnsupportedResolutionException) {
+            Log.e(TAG, "resolution not supported", e)
+            Toast.makeText(activity, e.message, Toast.LENGTH_LONG).show()
+            navController.popBackStack()
+            return@launch
+        }
 
         // Sends the capture request as frequently as possible until the session is torn down or
         //  session.stopRepeating() is called
@@ -525,10 +534,19 @@ class PreviewFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        pipeline.clearFrameListener()
-        pipeline.cleanup()
+        // Guarded: if StreamEncoder threw during init (e.g. UnsupportedResolutionException),
+        // `pipeline`/`encoder`/`encoderSurface` never finished constructing -- and since
+        // Kotlin's `lazy` retries on failure instead of caching the exception, touching them
+        // here would just re-throw the same error during teardown. Nothing meaningful to clean
+        // up in that case anyway.
+        try {
+            pipeline.clearFrameListener()
+            pipeline.cleanup()
+            encoderSurface.release()
+        } catch (e: UnsupportedResolutionException) {
+            Log.w(TAG, "skipping pipeline teardown, it never finished initializing", e)
+        }
         cameraThread.quitSafely()
-        encoderSurface.release()
     }
 
     override fun onDestroyView() {
