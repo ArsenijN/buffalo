@@ -19,7 +19,9 @@ package com.arseniusgen.buffalo.fragments
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.ActivityInfo
+import android.graphics.Color
 import android.graphics.ColorSpace
+import android.graphics.Typeface
 import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraDevice
@@ -36,6 +38,7 @@ import android.os.ConditionVariable
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Looper
+import android.os.SystemClock
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -43,6 +46,7 @@ import android.view.Surface
 import android.view.SurfaceHolder
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -78,6 +82,11 @@ class PreviewFragment : Fragment() {
     private val obsHost = "192.168.31.154"
     private val obsVideoPort = 5757
     private val obsControlPort = 5758
+
+    // On-screen debug log, so streaming status is visible without logcat attached.
+    private val debugLines = ArrayDeque<String>()
+    private var debugOverlay: TextView? = null
+    private var framesSent = 0
 
     private class HandlerExecutor(handler: Handler) : Executor {
         private val mHandler = handler
@@ -139,13 +148,15 @@ class PreviewFragment : Fragment() {
 
     /** Video channel to the OBS plugin (SPECS.md 1.1) */
     private val tcpSender: TcpFrameSender by lazy {
+        logDebug("Video TCP target: $obsHost:$obsVideoPort")
         TcpFrameSender(obsHost, obsVideoPort) { connected ->
-            Log.d(TAG, "video channel connected=$connected")
+            logDebug(if (connected) "Video TCP: CONNECTED" else "Video TCP: disconnected (retrying...)")
         }
     }
 
     /** Control channel to the OBS plugin (SPECS.md 1.1) */
     private val controlClient: ControlWebSocketClient by lazy {
+        logDebug("Control WS target: $obsHost:$obsControlPort")
         ControlWebSocketClient(
             host = obsHost,
             port = obsControlPort,
@@ -214,6 +225,8 @@ class PreviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupDebugOverlay()
+
         fragmentBinding.viewFinder.holder.addCallback(object : SurfaceHolder.Callback {
             override fun surfaceDestroyed(holder: SurfaceHolder) {
                 pipeline.destroyWindowSurface()
@@ -266,8 +279,17 @@ class PreviewFragment : Fragment() {
             "buffalo streaming requires the MediaCodec path; select useMediaRecorder=false"
         }
 
+        logDebug("Creating encoder: ${width}x$height @ ${args.fps}fps, ${RECORDER_VIDEO_BITRATE}bps")
+
         return StreamEncoder(width, height, RECORDER_VIDEO_BITRATE, args.fps) { data, isKeyFrame, _ ->
+            framesSent++
+            if (framesSent == 1) {
+                logDebug("First encoded frame produced (${data.size} bytes, key=$isKeyFrame)")
+            }
             tcpSender.offer(data, isKeyFrame)
+            if (framesSent % 30 == 0) {
+                logDebug("Encoded $framesSent frames so far (last size=${data.size})")
+            }
         }
     }
 
@@ -278,6 +300,38 @@ class PreviewFragment : Fragment() {
      * - Starts the preview by dispatching a repeating request
      */
     @SuppressLint("ClickableViewAccessibility")
+    /** Adds a small always-on-top log overlay to the preview so streaming status is visible on
+     *  the device itself -- no logcat/cable needed to see whether it's actually connecting. */
+    private fun setupDebugOverlay() {
+        val overlay = TextView(requireContext()).apply {
+            setTextColor(Color.GREEN)
+            textSize = 10f
+            typeface = Typeface.MONOSPACE
+            setBackgroundColor(Color.argb(180, 0, 0, 0))
+            setPadding(12, 12, 12, 12)
+            maxLines = 14
+        }
+        (fragmentBinding.root as ViewGroup).addView(
+            overlay,
+            ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        )
+        overlay.bringToFront()
+        debugOverlay = overlay
+        logDebug("buffalo debug overlay ready")
+    }
+
+    /** Appends a timestamped line to the on-screen overlay (and logcat). Safe to call from any
+     *  thread. Keeps only the last 14 lines so it doesn't grow forever. */
+    private fun logDebug(line: String) {
+        Log.d(TAG, line)
+        val timestamp = String.format("%.1fs", SystemClock.elapsedRealtime() / 1000.0)
+        Handler(Looper.getMainLooper()).post {
+            debugLines.addLast("[$timestamp] $line")
+            while (debugLines.size > 14) debugLines.removeFirst()
+            debugOverlay?.text = debugLines.joinToString("\n")
+        }
+    }
+
     private fun initializeCamera() = lifecycleScope.launch(Dispatchers.Main) {
         try {
             // Open the selected camera
@@ -293,10 +347,12 @@ class PreviewFragment : Fragment() {
                     recordingCompleteOnClose = (pipeline !is SoftwarePipeline))
         } catch (e: UnsupportedResolutionException) {
             Log.e(TAG, "resolution not supported", e)
+            logDebug("ERROR: ${e.message}")
             Toast.makeText(activity, e.message, Toast.LENGTH_LONG).show()
             navController.popBackStack()
             return@launch
         }
+        logDebug("Camera session created (${args.width}x${args.height})")
 
         // Sends the capture request as frequently as possible until the session is torn down or
         //  session.stopRepeating() is called
@@ -311,6 +367,7 @@ class PreviewFragment : Fragment() {
             when (event.action) {
 
                 MotionEvent.ACTION_DOWN -> lifecycleScope.launch(Dispatchers.IO) {
+                    logDebug("Record button pressed")
                     /* If the recording was already started in the past, do nothing. */
                     if (!recordingStarted) {
                         // Prevents screen rotation during the video recording
@@ -326,6 +383,7 @@ class PreviewFragment : Fragment() {
                         encoder.start()
                         cvRecordingStarted.open()
                         pipeline.startRecording()
+                        logDebug("Streaming started")
 
                         // Start recording repeating requests, which will stop the ongoing preview
                         //  repeating requests without having to explicitly call
