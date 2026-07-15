@@ -105,7 +105,28 @@ class StreamEncoder(
             }
         })
 
-        codec.configure(format, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
+        try {
+            codec.configure(format, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
+        } catch (e: Exception) {
+            // Forcing Baseline profile without an explicit KEY_LEVEL can be rejected by some
+            // vendor encoders at certain resolutions (level defaults too low for the pixel
+            // count) -- this is the most likely cause of "some resolutions produce a black
+            // screen and then a crash". Fall back to whatever profile/level the device wants
+            // to pick on its own rather than taking the whole app down; SPECS.md's "baseline,
+            // no optimizations" is a target for v0, not something worth crashing over yet.
+            Log.w(TAG, "configure() failed with forced Baseline profile at ${width}x$height, " +
+                    "retrying without a forced profile", e)
+            val fallbackFormat = MediaFormat.createVideoFormat(MIME, width, height).apply {
+                setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface)
+                setInteger(MediaFormat.KEY_BIT_RATE, bitRate)
+                setInteger(MediaFormat.KEY_FRAME_RATE, frameRate)
+                setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, IFRAME_INTERVAL)
+                // No KEY_PROFILE here -- let the encoder pick. It may end up above Baseline,
+                // which the (still-stubbed) OBS decoder should handle fine via openh264 since
+                // that's a general-purpose H264 decoder, not a Baseline-only one.
+            }
+            codec.configure(fallbackFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
+        }
     }
 
     fun getInputSurface(): Surface = codec.createInputSurface()

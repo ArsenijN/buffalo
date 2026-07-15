@@ -1,0 +1,61 @@
+name: Build OBS Plugins
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  DONT_USE_GENERATED_BINDINGS: "true"
+
+jobs:
+  build_linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - uses: actions/cache@v1
+        with:
+          path: ${{ github.workspace }}/target
+          key: ubuntu-rust-target-directory
+      - run: |
+          sudo add-apt-repository ppa:obsproject/obs-studio
+          sudo apt-get update
+          sudo apt-get install obs-studio libxcb-randr0-dev libxcb-ewmh-dev
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - run: |
+          cargo build --verbose --workspace
+          cargo test --workspace
+
+  build_windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - uses: actions/cache@v1
+        with:
+          path: ${{ github.workspace }}/target
+          key: windows-rust-target-directory
+      - run: |
+          choco install obs-studio llvm
+          cargo build --verbose --workspace --exclude scroll-focus-filter
+          cargo test --workspace --exclude scroll-focus-filter
+
+  # build_macos:
+  #   runs-on: macos-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #       with:
+  #         submodules: true
+  #     - uses: actions/cache@v1
+  #       with:
+  #         path: ${{ github.workspace }}/target
+  #         key: macos-rust-target-directory
+  #     - run: |
+  #         brew cask install obs
+  #         cargo build --verbose --workspace --exclude scroll-focus-filter
+  #         cargo test --workspace --exclude scroll-focus-filter

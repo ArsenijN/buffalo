@@ -13,7 +13,7 @@ crate-type = ["cdylib"]
 # methods/traits below, check https://docs.rs/obs-wrapper/latest against what's
 # pinned here and adjust; the shape (Sourceable/GetNameSource/Module) is stable,
 # exact method names on SourceContext have moved around.
-obs-wrapper = "0.4"
+obs-wrapper = { path = "vendor-obs-wrapper" }
 
 # Pure-decode H264, no OBS/ffmpeg linkage needed -- ships OpenH264 source and
 # builds it via cc in build.rs, so it Just Builds on a fresh machine.

@@ -6,7 +6,6 @@
 
 use futures_util::{SinkExt, StreamExt};
 use serde::{Deserialize, Serialize};
-use std::sync::mpsc::Sender as StdSender;
 use tokio::runtime::Runtime;
 use tokio_tungstenite::connect_async;
 use tokio_tungstenite::tungstenite::Message;

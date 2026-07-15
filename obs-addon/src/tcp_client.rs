@@ -128,10 +128,36 @@ fn read_exact_or_timeout(stream: &mut TcpStream, buf: &mut [u8]) -> std::io::Res
 }
 
 fn to_decoded_frame(yuv: &openh264::decoder::DecodedYUV) -> DecodedFrame {
+    use openh264::formats::YUVSource;
+
     let (width, height) = yuv.dimensions();
-    let mut i420 = Vec::with_capacity((width * height * 3 / 2) as usize);
-    i420.extend_from_slice(yuv.y_with_stride());
-    i420.extend_from_slice(yuv.u_with_stride());
-    i420.extend_from_slice(yuv.v_with_stride());
+    let (y_stride, u_stride, v_stride) = yuv.strides();
+    let chroma_w = (width + 1) / 2;
+    let chroma_h = (height + 1) / 2;
+
+    // openh264 hands back each plane with its own stride, which is frequently wider than the
+    // actual pixel width (alignment padding). We copy row-by-row to strip that padding, since
+    // downstream (the OBS source and, before that, the wire format) expects tightly packed
+    // planes with no per-row gaps.
+    let mut i420 = Vec::with_capacity(width * height + 2 * chroma_w * chroma_h);
+
+    let y = yuv.y();
+    for row in 0..height {
+        let start = row * y_stride;
+        i420.extend_from_slice(&y[start..start + width]);
+    }
+
+    let u = yuv.u();
+    for row in 0..chroma_h {
+        let start = row * u_stride;
+        i420.extend_from_slice(&u[start..start + chroma_w]);
+    }
+
+    let v = yuv.v();
+    for row in 0..chroma_h {
+        let start = row * v_stride;
+        i420.extend_from_slice(&v[start..start + chroma_w]);
+    }
+
     DecodedFrame { width: width as u32, height: height as u32, i420 }
 }
