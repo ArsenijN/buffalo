@@ -69,3 +69,63 @@ buffalo is open for new contributors and idea inspirations
 Current buffalo state: bare-bones changes to the Android example, flavoring it -
 works via the Python listener code; OBS plugin is still in-progress (doesn't 
 compile)
+
+---
+
+# What's done
+
+Currently, you can build the Android app and run the following command on 
+PC/laptop to get the video feed from phone when it connects to it (please 
+change the `PreviewFragment.kt`'s `private val obsHost = "192.168.31.154"` to 
+your actual PC's/laptop's IP address!!!): `python3 test_receiver.py | ffplay -f 
+h264 -framerate 30 -i -` (change the 30 to your phone's framerate that it will 
+output, otherwise FFmpeg may start to play the video feed faster/slower than 
+the actual speed if leaved with wrong value on unspecified (fallbacks to 25 
+fps?))
+
+To use buffalo Android app: choose the camera and the video resolution (I 
+recommend stick to the common 16:9 resolutions like 1280x720 or 1920x1080, 
+otherwise if phone doesn't actually support the res - app should handle that 
+gracefully), then click on it - click "MediaCodec" - click the codec of choice 
+(use H264 for compatibility reasons, and this is what I was only given) - 
+select "Single-stream" - select "Portrait Filter Off" (you don't want the 
+filters to be on, didn't ya?)
+
+After all of that config state, you're in the preview window - before pressing 
+that pleasuable, alluring in appearance Big Gray Button, let me explain what 
+you see:
+- on top is the debug info panel - it shows the logs of the buffalo's backend, 
+e.g. if the stream is send, is receiver is connected, etc.
+- most of the screen is covered with preview from the camera. Important: if you 
+see only the black screen and not your actual camera's preview - this means that
+the current selected resolution is NOT SUPPORTED and you need to change it to 
+something else to work
+- In lower half of the screen, you can see that Big Gray Button. It starts the 
+video feed send when you HOLD it
+
+By holding the Big Gray Button, you can see the next logs appearing in the info 
+panel:
+
+```
+Record Button Pressed
+Video TCP target: [IP]:[port]
+Control WS target: [IP]:[port]
+Streaming started
+...
+```
+
+Those messages means that you're actively sends the video feed from your device 
+over the LAN!
+
+When the receiver IS connected, you'll see the "Video TCP: CONNECTED" once, 
+instead of repeating "Video TCP: disconnected (retrying...)"
+
+`Encoded x frames so far (last size=n)` is a statistics info - you can compare 
+those values with the FFmpeg's values to understand if phone/LAN/FFmpeg is not 
+throttling (or by the Time Of Appearance in logs - this message should appear 
+every 1 second at 30 fps)
+
+OBS's plugin right now is not ready - it acts completely backwards to the 
+current system (where by the specs the phone is client that connects to the 
+OBS, which is should be the server, and gives to it the video feed, but current 
+system uses backwards way)
