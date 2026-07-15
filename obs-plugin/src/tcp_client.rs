@@ -24,7 +24,8 @@ pub struct DecodedFrame {
 
 pub struct TcpVideoClient {
     running: Arc<AtomicBool>,
-    handle: Option<thread::JoinHandle<()>>,
+    // We remove the handle from TcpVideoClient so we don't hold onto it 
+    // and feel forced to synchronously join it on Drop.
 }
 
 impl TcpVideoClient {
@@ -32,18 +33,18 @@ impl TcpVideoClient {
         let running = Arc::new(AtomicBool::new(true));
         let running_thread = running.clone();
 
-        let handle = thread::spawn(move || {
+        // Let the thread run detached in the background. 
+        // When TcpVideoClient drops, the flag is set to false, 
+        // and the thread will cleanly exit on its next loop cycle.
+        thread::spawn(move || {
             run(&host, port, &running_thread, on_frame);
         });
 
-        Self { running, handle: Some(handle) }
+        Self { running }
     }
 
     pub fn stop(&mut self) {
         self.running.store(false, Ordering::SeqCst);
-        if let Some(h) = self.handle.take() {
-            let _ = h.join();
-        }
     }
 }
 
@@ -54,8 +55,17 @@ impl Drop for TcpVideoClient {
 }
 
 fn run(host: &str, port: u16, running: &AtomicBool, on_frame: impl Fn(DecodedFrame)) {
+    use std::net::SocketAddr;
+
+    // Parse target address
+    let addrs = match format!("{}:{}", host, port).parse::<SocketAddr>() {
+        Ok(addr) => vec![addr],
+        Err(_) => return, // Handle invalid IP cleanly
+    };
+
     while running.load(Ordering::SeqCst) {
-        match TcpStream::connect((host, port)) {
+        // Use a short, non-blocking connection timeout (e.g., 1 second)
+        match TcpStream::connect_timeout(&addrs[0], Duration::from_secs(1)) {
             Ok(mut stream) => {
                 let _ = stream.set_read_timeout(Some(Duration::from_millis(500)));
                 let _ = stream.set_nodelay(true);
@@ -71,17 +81,15 @@ fn run(host: &str, port: u16, running: &AtomicBool, on_frame: impl Fn(DecodedFra
                 while running.load(Ordering::SeqCst) {
                     match read_frame(&mut stream) {
                         Ok(Some(access_unit)) => {
-                            // access_unit may contain multiple NAL units (SPS+PPS+slice on
-                            // keyframes) -- split and feed each to the decoder.
                             for nal in nal_units(&access_unit) {
                                 match decoder.decode(nal) {
                                     Ok(Some(yuv)) => on_frame(to_decoded_frame(&yuv)),
-                                    Ok(None) => {} // decoder buffering, no picture yet
+                                    Ok(None) => {}
                                     Err(e) => eprintln!("[buffalo] decode error: {e}"),
                                 }
                             }
                         }
-                        Ok(None) => continue, // read timeout, loop to re-check `running`
+                        Ok(None) => continue, 
                         Err(e) => {
                             eprintln!("[buffalo] video connection lost: {e}");
                             break;

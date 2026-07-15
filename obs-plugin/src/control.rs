@@ -53,7 +53,10 @@ impl ControlClient {
         let (cmd_tx, mut cmd_rx) = tokio::sync::mpsc::unbounded_channel::<OutgoingMessage>();
 
         runtime.spawn(async move {
-            loop {
+            // Keep a flag to know if our client wrapper was dropped
+            let mut client_alive = true;
+
+            while client_alive {
                 let url = format!("ws://{host}:{port}");
                 match connect_async(&url).await {
                     Ok((ws_stream, _)) => {
@@ -84,7 +87,11 @@ impl ControlClient {
                                                 break;
                                             }
                                         }
-                                        None => return, // ControlClient dropped
+                                        None => {
+                                            // ControlClient was dropped! Clean up and exit the task.
+                                            client_alive = false;
+                                            break;
+                                        }
                                     }
                                 }
                             }
@@ -97,7 +104,20 @@ impl ControlClient {
                     }
                 }
 
-                tokio::time::sleep(std::time::Duration::from_secs(1)).await;
+                // If the client has been dropped, don't wait 1 second; exit the thread immediately.
+                if !client_alive {
+                    break;
+                }
+
+                // Before sleeping, check if the channel has been closed (client dropped)
+                // to avoid waiting an extra second on shutdown.
+                tokio::select! {
+                    _ = tokio::time::sleep(std::time::Duration::from_secs(1)) => {}
+                    _ = cmd_rx.recv() => {
+                        // Channel closed during sleep
+                        break;
+                    }
+                }
             }
         });
 

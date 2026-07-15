@@ -97,12 +97,16 @@ impl GetPropertiesSource for BuffaloSource {
         properties.add(
             obs_string!("video_port"),
             obs_string!("Video port"),
-            NumberProp::new_int().with_range(1024i64..=65535i64),
+            NumberProp::new_int()
+                .with_range(1024i64..=65535i64)
+                .with_step(1i64), // Add explicit step size!
         );
         properties.add(
             obs_string!("control_port"),
             obs_string!("Control port"),
-            NumberProp::new_int().with_range(1024i64..=65535i64),
+            NumberProp::new_int()
+                .with_range(1024i64..=65535i64)
+                .with_step(1i64), // Add explicit step size!
         );
         properties
     }
