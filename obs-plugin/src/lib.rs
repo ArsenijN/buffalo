@@ -4,6 +4,8 @@
 //! local patch (see vendor-obs-wrapper/) adding SourceContext::output_video_i420, which the
 //! published crate doesn't expose for async video input sources.
 
+const PLUGIN_VERSION: &str = concat!("1.0.0.build.", env!("BUFFALO_BUILD_NUMBER"));
+
 mod control;
 mod tcp_client;
 
@@ -89,6 +91,15 @@ impl GetNameSource for BuffaloSource {
 impl GetPropertiesSource for BuffaloSource {
     fn get_properties(&mut self) -> Properties {
         let mut properties = Properties::new();
+
+        // 1. Add the Version display at the very top
+        properties.add(
+            obs_string!("plugin_version_label"),
+            obs_string!(concat!("Plugin Version: ", concat!("1.0.0.build.", env!("BUFFALO_BUILD_NUMBER")))),
+            TextProp::new(TextType::Default),
+        );
+
+        // 2. Your existing fields with the fixed step sizes!
         properties.add(
             obs_string!("host"),
             obs_string!("Phone IP address"),
@@ -99,14 +110,14 @@ impl GetPropertiesSource for BuffaloSource {
             obs_string!("Video port"),
             NumberProp::new_int()
                 .with_range(1024i64..=65535i64)
-                .with_step(1i64), // Add explicit step size!
+                .with_step(1i64),
         );
         properties.add(
             obs_string!("control_port"),
             obs_string!("Control port"),
             NumberProp::new_int()
                 .with_range(1024i64..=65535i64)
-                .with_step(1i64), // Add explicit step size!
+                .with_step(1i64),
         );
         properties
     }
