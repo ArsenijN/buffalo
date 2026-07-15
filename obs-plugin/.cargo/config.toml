@@ -1,0 +1,2 @@
+[target.x86_64-unknown-linux-gnu]
+rustflags = ["-L", "/var/lib/flatpak/app/com.obsproject.Studio/x86_64/stable/active/files/lib"]

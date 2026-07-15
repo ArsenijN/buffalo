@@ -446,8 +446,14 @@ class PreviewFragment : Fragment() {
                         fragmentBinding.captureTimer?.stop()
                     }
 
-                    /* Wait until the session signals onReady */
-                    cvRecordingComplete.block()
+                    /* Wait until the session signals onReady -- but only for HardwarePipeline
+                     * (dual-stream), whose session swap above is created with
+                     * recordingCompleteOnClose=true. SoftwarePipeline (Single-stream) never
+                     * opens this ConditionVariable at all (see onClosed()'s guard below), so
+                     * blocking here unconditionally hung forever in Single-stream mode. */
+                    if (pipeline !is SoftwarePipeline) {
+                        cvRecordingComplete.block()
+                    }
 
                     // Unlocks screen rotation after recording finished
                     requireActivity().requestedOrientation =
@@ -474,6 +480,16 @@ class PreviewFragment : Fragment() {
                                     Toast.LENGTH_LONG).show()
                         }
                     }
+                    logDebug("Streaming stopped (${framesSent} frames sent this session)")
+                    // REVERTED: I previously removed this navigation, reasoning it was jarring
+                    // for a streaming app to jump back to the resolution picker on every
+                    // release. But I never wired up "press record again to resume in place" as
+                    // a replacement -- session/encoder are fully torn down above
+                    // (session.close()), so without this the screen just goes dead: no live
+                    // preview, record button does nothing, only the back gesture gets you out.
+                    // That's strictly worse than the jarring-but-functional original, so this
+                    // stays until "resume in place" is actually built (a real feature, bigger
+                    // than this fix -- say the word if you want it).
                     Handler(Looper.getMainLooper()).post {
                         navController.popBackStack()
                     }
