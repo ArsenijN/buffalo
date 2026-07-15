@@ -19,6 +19,25 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs"
 
+// --- buffalo build-number automation -----------------------------------------------------
+// Reads version.properties (MAJOR/MINOR/PATCH/BUILD_NUMBER) to build versionName/versionCode.
+// This block only READS the file -- it does not increment anything itself, so re-running
+// Gradle sync in Android Studio (which evaluates this file but doesn't execute tasks) won't
+// bump the counter. The actual increment happens once, in the incrementBuildNumber task
+// below, which is wired to run before every real build.
+def versionPropsFile = file('version.properties')
+def versionProps = new Properties()
+if (versionPropsFile.canRead()) {
+    versionProps.load(new FileInputStream(versionPropsFile))
+} else {
+    throw new GradleException("version.properties not found at ${versionPropsFile} -- see app/version.properties")
+}
+def verMajor = (versionProps['MAJOR'] ?: "0").toInteger()
+def verMinor = (versionProps['MINOR'] ?: "1").toInteger()
+def verPatch = (versionProps['PATCH'] ?: "0").toInteger()
+def verBuild = (versionProps['BUILD_NUMBER'] ?: "0").toInteger()
+// -------------------------------------------------------------------------------------------
+
 android {
     compileSdkVersion 34
     defaultConfig {
@@ -26,9 +45,12 @@ android {
         applicationId "com.arseniusgen.buffalo"
         minSdkVersion 26
         targetSdkVersion 34
-        versionCode 1
-        versionName "0.1.0.build.10"
+        // versionCode must strictly increase for Play Store uploads -- the raw build number
+        // does that on its own, no need to fold major/minor/patch into it.
+        versionCode verBuild
+        versionName "${verMajor}.${verMinor}.${verPatch}.build.${verBuild}"
     }
+
 
     compileOptions {
         sourceCompatibility rootProject.ext.java_version
@@ -88,3 +110,19 @@ dependencies {
     // buffalo control channel (WebSocket client to the OBS plugin)
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
 }
+
+// Bumps BUILD_NUMBER in version.properties by 1 and persists it. Wired to preBuild below, so
+// it runs once per real build (assembleDebug, assembleRelease, Android Studio's Run button --
+// anything that actually executes the Gradle task graph). It does NOT run on a bare IDE
+// project sync, since sync only evaluates this file, it doesn't execute tasks.
+task incrementBuildNumber {
+    doLast {
+        if (versionPropsFile.canRead()) {
+            versionProps['BUILD_NUMBER'] = (verBuild + 1).toString()
+            versionProps.store(versionPropsFile.newWriter(), null)
+        } else {
+            throw new GradleException("Could not read version.properties!")
+        }
+    }
+}
+preBuild.dependsOn incrementBuildNumber
