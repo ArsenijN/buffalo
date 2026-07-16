@@ -2,6 +2,26 @@
 
 This To-Do file will contain the main feature set to implement over time
 
+# MVP - current TODO for the dev project
+
+## Mobile app - Android
+
+*sorted by priority*
+
+- [ ] Instead of separate tabs for settings, make a simple setting menu to 
+change them; they persists in the app data
+
+## OBS Plugin
+
+*sorted by priority*
+
+- [ ] Fix the issues with connectivity (aka no one listens, everyone talks)
+- [ ] Fix a version text being with input bar
+
+
+
+# Basis - when project reaches full specs implementation and backend works as 
+should
 
 ## Mobile app - Android
 

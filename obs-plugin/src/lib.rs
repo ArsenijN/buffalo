@@ -18,8 +18,8 @@ use obs_wrapper::{
     obs_register_module, obs_string,
     properties::{NumberProp, Properties, TextProp, TextType},
     source::{
-        CreatableSourceContext, GetNameSource, GetPropertiesSource, GlobalContext, SourceContext,
-        SourceType, Sourceable, UpdateSource, VideoTickSource,
+        CreatableSourceContext, GetDefaultsSource, GetNameSource, GetPropertiesSource,
+        GlobalContext, SourceContext, SourceType, Sourceable, UpdateSource, VideoTickSource,
     },
     string::ObsString,
 };
@@ -92,10 +92,13 @@ impl GetPropertiesSource for BuffaloSource {
     fn get_properties(&mut self) -> Properties {
         let mut properties = Properties::new();
 
-        // 1. Add the Version display at the very top
+        // 1. Version display at the very top. The actual version text is set as this field's
+        // default value in GetDefaultsSource below -- putting it in the *description* (as
+        // before) makes it the field's label, not its content, which is why it rendered as an
+        // empty editable text bar instead of showing the version.
         properties.add(
             obs_string!("plugin_version_label"),
-            obs_string!(concat!("Plugin Version: ", concat!("1.0.0.build.", env!("BUFFALO_BUILD_NUMBER")))),
+            obs_string!("Plugin Version"),
             TextProp::new(TextType::Default),
         );
 
@@ -120,6 +123,15 @@ impl GetPropertiesSource for BuffaloSource {
                 .with_step(1i64),
         );
         properties
+    }
+}
+
+impl GetDefaultsSource for BuffaloSource {
+    fn get_defaults(settings: &mut DataObj) {
+        settings.set_default::<Cow<str>>("plugin_version_label", PLUGIN_VERSION.into());
+        settings.set_default::<Cow<str>>("host", "192.168.1.100".into());
+        settings.set_default::<i64>("video_port", DEFAULT_VIDEO_PORT);
+        settings.set_default::<i64>("control_port", DEFAULT_CONTROL_PORT);
     }
 }
 
@@ -203,6 +215,7 @@ impl Module for BuffaloModule {
             .create_source_builder::<BuffaloSource>()
             .enable_get_name()
             .enable_get_properties()
+            .enable_get_defaults()
             .enable_update()
             .enable_video_tick()
             .build();

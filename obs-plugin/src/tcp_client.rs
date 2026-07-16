@@ -55,17 +55,26 @@ impl Drop for TcpVideoClient {
 }
 
 fn run(host: &str, port: u16, running: &AtomicBool, on_frame: impl Fn(DecodedFrame)) {
-    use std::net::SocketAddr;
-
-    // Parse target address
-    let addrs = match format!("{}:{}", host, port).parse::<SocketAddr>() {
-        Ok(addr) => vec![addr],
-        Err(_) => return, // Handle invalid IP cleanly
-    };
+    use std::net::ToSocketAddrs;
 
     while running.load(Ordering::SeqCst) {
-        // Use a short, non-blocking connection timeout (e.g., 1 second)
-        match TcpStream::connect_timeout(&addrs[0], Duration::from_secs(1)) {
+        let addr = match format!("{host}:{port}").to_socket_addrs().ok().and_then(|mut a| a.next()) {
+            Some(addr) => addr,
+            None => {
+                // Was previously a silent `return` here -- the whole thread would vanish with
+                // zero log output on anything but a bare numeric IP (stray whitespace from a
+                // copy-paste, a hostname instead of an IP, etc.), leaving OBS looking like it
+                // was doing nothing with no clue why. Log it and keep retrying instead, in case
+                // this was transient or the settings get corrected.
+                eprintln!("[buffalo] can't resolve '{host}:{port}' as an address, retrying in 1s");
+                thread::sleep(Duration::from_secs(1));
+                continue;
+            }
+        };
+
+        // Use a short, bounded connection timeout (1s) so a dead/unreachable host doesn't
+        // block this thread for the OS-default TCP connect timeout (often 30-120s).
+        match TcpStream::connect_timeout(&addr, Duration::from_secs(1)) {
             Ok(mut stream) => {
                 let _ = stream.set_read_timeout(Some(Duration::from_millis(500)));
                 let _ = stream.set_nodelay(true);
