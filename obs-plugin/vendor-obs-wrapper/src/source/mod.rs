@@ -36,7 +36,8 @@ use obs_sys::{
     obs_source_set_name, obs_source_showing, obs_source_skip_video_filter, obs_source_t,
     obs_source_type, obs_source_type_OBS_SOURCE_TYPE_FILTER, obs_source_type_OBS_SOURCE_TYPE_INPUT,
     obs_source_type_OBS_SOURCE_TYPE_SCENE, obs_source_type_OBS_SOURCE_TYPE_TRANSITION,
-    obs_source_update, obs_text_type, video_format_VIDEO_FORMAT_I420, bfree,
+    obs_source_update, obs_text_type, video_colorspace_VIDEO_CS_601, video_format_get_parameters,
+    video_format_VIDEO_FORMAT_I420, video_range_type_VIDEO_RANGE_PARTIAL, bfree,
     OBS_SOURCE_AUDIO, OBS_SOURCE_CONTROLLABLE_MEDIA, OBS_SOURCE_INTERACTION, OBS_SOURCE_VIDEO,
 };
 
@@ -152,6 +153,23 @@ impl SourceContext {
         unsafe {
             let mut frame: obs_source_frame = std::mem::zeroed();
             obs_source_frame_init(&mut frame, video_format_VIDEO_FORMAT_I420, width, height);
+
+            // CRITICAL: obs_source_frame_init only sets format/width/height/linesize/data --
+            // it does NOT populate color_matrix/color_range_min/color_range_max. Left at zero
+            // (from mem::zeroed() above), the YUV->RGB conversion is degenerate and renders
+            // solid black for every pixel regardless of correct Y/U/V data -- this was the
+            // actual bug behind "phone connected, frames decoding, but nothing shows in OBS".
+            // BT.601 partial (limited) range is a reasonable default for a phone camera H264
+            // encode; if colors look off (washed out/too dark) once video is actually visible,
+            // that's a follow-up tweak (try VIDEO_CS_709 and/or VIDEO_RANGE_FULL), not this bug.
+            video_format_get_parameters(
+                video_colorspace_VIDEO_CS_601,
+                video_range_type_VIDEO_RANGE_PARTIAL,
+                frame.color_matrix.as_mut_ptr(),
+                frame.color_range_min.as_mut_ptr(),
+                frame.color_range_max.as_mut_ptr(),
+            );
+            frame.full_range = false;
 
             let chroma_h = (height + 1) / 2;
             let y_size = (frame.linesize[0] as usize) * (height as usize);

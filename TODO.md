@@ -8,6 +8,7 @@ This To-Do file will contain the main feature set to implement over time
 
 *sorted by priority*
 
+- [ ] Button work as self-hold until pressed again
 - [ ] Instead of separate tabs for settings, make a simple setting menu to 
 change them; they persists in the app data
 
@@ -15,8 +16,9 @@ change them; they persists in the app data
 
 *sorted by priority*
 
-- [ ] Fix the issues with connectivity (aka no one listens, everyone talks)
-- [ ] Fix a version text being with input bar
+- [x] Fix the issues with connectivity (aka no one listens, everyone talks)
+- [ ] Fix a version text being a text with input bar on side
+- [ ] Make video feed work actually
 
 
 

@@ -30,12 +30,17 @@ impl TcpVideoServer {
     /// Binds `0.0.0.0:port` and waits for the phone to connect. Reconnect-tolerant: if the
     /// phone's connection drops (app closed, streaming stopped, Wi-Fi hiccup), this goes back
     /// to listening for the next connection rather than dying -- no plugin restart needed
-    /// between takes.
-    pub fn start(port: u16, on_frame: impl Fn(DecodedFrame) + Send + 'static) -> Self {
+    /// between takes. `on_connection_change` fires true right after a phone connects and false
+    /// when it disconnects, for status reporting.
+    pub fn start(
+        port: u16,
+        on_frame: impl Fn(DecodedFrame) + Send + 'static,
+        on_connection_change: impl Fn(bool) + Send + 'static,
+    ) -> Self {
         let running = Arc::new(AtomicBool::new(true));
         let running_thread = running.clone();
 
-        thread::spawn(move || run(port, &running_thread, on_frame));
+        thread::spawn(move || run(port, &running_thread, on_frame, on_connection_change));
 
         Self { running }
     }
@@ -51,7 +56,12 @@ impl Drop for TcpVideoServer {
     }
 }
 
-fn run(port: u16, running: &AtomicBool, on_frame: impl Fn(DecodedFrame)) {
+fn run(
+    port: u16,
+    running: &AtomicBool,
+    on_frame: impl Fn(DecodedFrame),
+    on_connection_change: impl Fn(bool),
+) {
     let listener = match TcpListener::bind(("0.0.0.0", port)) {
         Ok(l) => l,
         Err(e) => {
@@ -72,6 +82,7 @@ fn run(port: u16, running: &AtomicBool, on_frame: impl Fn(DecodedFrame)) {
         match listener.accept() {
             Ok((mut stream, addr)) => {
                 println!("[buffalo] phone connected: {addr}");
+                on_connection_change(true);
                 let _ = stream.set_nonblocking(false); // back to blocking for the per-frame read loop
                 let _ = stream.set_read_timeout(Some(Duration::from_millis(500)));
                 let _ = stream.set_nodelay(true);
@@ -103,6 +114,7 @@ fn run(port: u16, running: &AtomicBool, on_frame: impl Fn(DecodedFrame)) {
                     }
                 }
 
+                on_connection_change(false);
                 println!("[buffalo] video server listening on :{port}, waiting for the phone...");
             }
             Err(e) if e.kind() == ErrorKind::WouldBlock => {

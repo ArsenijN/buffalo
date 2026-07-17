@@ -12,12 +12,9 @@
 //! can be port-forwarded if remote access is ever wanted. It also means the phone has zero open
 //! ports -- no attack surface to discover or port-scan, only outbound connections it initiates.
 
-const PLUGIN_VERSION: &str = concat!("1.0.0.build.", env!("BUFFALO_BUILD_NUMBER"));
-
 mod control;
 mod tcp_server;
 
-use std::borrow::Cow;
 use std::sync::{Arc, Mutex};
 
 use obs_wrapper::{
@@ -38,10 +35,40 @@ use tcp_server::{DecodedFrame, TcpVideoServer};
 const DEFAULT_VIDEO_PORT: i64 = 5757; // TBD per SPECS.md -- pick anything but 4747 (DroidCam)
 const DEFAULT_CONTROL_PORT: i64 = 5758;
 
+/// Live connection status, shared with the background listener threads so
+/// GetPropertiesSource can show a snapshot of it. See the long comment on get_properties()
+/// below for why this can only ever be a snapshot-on-open, not a live tick -- obs-wrapper's
+/// GetPropertiesSource hook has no settings-write access, unlike UpdateSource.
+#[derive(Default)]
+struct StreamStatus {
+    video_connected: bool,
+    frames_received: u64,
+    control_connected: bool,
+    device: Option<String>,
+    resolution: Option<String>,
+}
+
+impl StreamStatus {
+    fn summary_line(&self) -> String {
+        let video = if self.video_connected {
+            format!("video connected ({} frames received)", self.frames_received)
+        } else {
+            "waiting for phone to connect...".to_string()
+        };
+        let control = match (&self.device, &self.resolution) {
+            (Some(d), Some(r)) => format!("phone identified as {d} ({r})"),
+            _ if self.control_connected => "control channel connected, no hello yet".to_string(),
+            _ => "control channel idle".to_string(),
+        };
+        format!("Status: {video} | {control}")
+    }
+}
+
 struct BuffaloSourceData {
     video_server: Option<TcpVideoServer>,
     control_server: Option<ControlServer>,
     latest_frame: Arc<Mutex<Option<DecodedFrame>>>,
+    status: Arc<Mutex<StreamStatus>>,
     source: SourceContext,
     video_port: u16,
     control_port: u16,
@@ -69,6 +96,7 @@ impl Sourceable for BuffaloSource {
             video_server: None,
             control_server: None,
             latest_frame: Arc::new(Mutex::new(None)),
+            status: Arc::new(Mutex::new(StreamStatus::default())),
             source,
             video_port,
             control_port,
@@ -79,26 +107,39 @@ impl Sourceable for BuffaloSource {
     }
 }
 
+/// Version is embedded directly in the source's displayed name (shown in the Sources panel and
+/// the Add Source dialog) instead of a Properties field. This used to be a TextProp, which is
+/// ALWAYS editable in this crate/libobs version -- there's no read-only "info" text type
+/// available in the bindings this is built against, checked directly against the raw C
+/// bindings, not just the safe wrapper. Rather than fake read-only and let someone type over
+/// the version number, the name is a field OBS genuinely never lets you edit.
 impl GetNameSource for BuffaloSource {
     fn get_name() -> ObsString {
-        obs_string!("buffalo (phone camera)")
+        obs_string!(concat!("buffalo (phone camera) v", "1.0.0.build.", env!("BUFFALO_BUILD_NUMBER")))
     }
 }
 
-/// Settings UI: just the two ports now -- no "Phone IP address" field, since this side listens
-/// rather than dialing out (see the architecture note at the top of this file). Point the
-/// phone's own settings at whatever IP this machine has on your LAN instead.
+/// Settings UI: two ports, plus a status line built fresh every time this dialog opens.
+///
+/// Why the status line is only a snapshot-on-open, not a live tick: this hook's signature is
+/// `fn get_properties(&mut self) -> Properties` -- no `&mut DataObj` parameter, unlike
+/// UpdateSource::update(). Properties::add() only lets us set a field's TYPE and LABEL
+/// (description), not inject a fresh runtime VALUE into settings; DataObj::set_default (via
+/// GetDefaultsSource) only backfills a key that has no value yet, it doesn't force-overwrite an
+/// existing one on every open. So the only channel we have for "something computed right now"
+/// is the field's label text, which is why the status text lives there instead of in the
+/// field's content. Close and reopen this dialog to refresh it.
 impl GetPropertiesSource for BuffaloSource {
     fn get_properties(&mut self) -> Properties {
+        let data = self.data.lock().unwrap();
+        let status_line = data.status.lock().unwrap().summary_line();
+        drop(data);
+
         let mut properties = Properties::new();
 
-        // Version display. The actual version text is set as this field's default value in
-        // GetDefaultsSource below -- putting it in the *description* instead makes it the
-        // field's label, not its content, which is why it previously rendered as an empty
-        // editable text bar instead of showing the version.
         properties.add(
-            obs_string!("plugin_version_label"),
-            obs_string!("Plugin Version"),
+            obs_string!("status_info"),
+            ObsString::from(status_line),
             TextProp::new(TextType::Default),
         );
 
@@ -122,7 +163,6 @@ impl GetPropertiesSource for BuffaloSource {
 
 impl GetDefaultsSource for BuffaloSource {
     fn get_defaults(settings: &mut DataObj) {
-        settings.set_default::<Cow<str>>("plugin_version_label", Cow::Borrowed(PLUGIN_VERSION));
         settings.set_default::<i64>("video_port", DEFAULT_VIDEO_PORT);
         settings.set_default::<i64>("control_port", DEFAULT_CONTROL_PORT);
     }
@@ -150,20 +190,46 @@ fn start_listening(data: &mut BuffaloSourceData) {
     data.control_server = None;
 
     let latest_frame = data.latest_frame.clone();
-    data.video_server = Some(TcpVideoServer::start(data.video_port, move |frame| {
-        *latest_frame.lock().unwrap() = Some(frame);
-    }));
-
-    data.control_server = Some(ControlServer::start(
-        data.control_port,
-        |event| match event {
-            ControlEvent::Hello { device, resolution } => {
-                println!("[buffalo] phone identified itself: {device} ({resolution})");
+    let status_for_video = data.status.clone();
+    data.video_server = Some(TcpVideoServer::start(
+        data.video_port,
+        move |frame| {
+            {
+                let mut s = status_for_video.lock().unwrap();
+                s.video_connected = true;
+                s.frames_received += 1;
             }
-            ControlEvent::Connected => println!("[buffalo] control channel connected"),
-            ControlEvent::Disconnected => println!("[buffalo] control channel disconnected"),
+            *latest_frame.lock().unwrap() = Some(frame);
+        },
+        {
+            let status = data.status.clone();
+            move |connected| {
+                status.lock().unwrap().video_connected = connected;
+            }
         },
     ));
+
+    let status_for_control = data.status.clone();
+    data.control_server = Some(ControlServer::start(data.control_port, move |event| {
+        let mut s = status_for_control.lock().unwrap();
+        match event {
+            ControlEvent::Hello { device, resolution } => {
+                println!("[buffalo] phone identified itself: {device} ({resolution})");
+                s.device = Some(device);
+                s.resolution = Some(resolution);
+            }
+            ControlEvent::Connected => {
+                println!("[buffalo] control channel connected");
+                s.control_connected = true;
+            }
+            ControlEvent::Disconnected => {
+                println!("[buffalo] control channel disconnected");
+                s.control_connected = false;
+                s.device = None;
+                s.resolution = None;
+            }
+        }
+    }));
 }
 
 /// Called every video tick by OBS. Pulls whatever the TCP thread last decoded and pushes it via
