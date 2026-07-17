@@ -17,8 +17,11 @@ change them; they persists in the app data
 *sorted by priority*
 
 - [x] Fix the issues with connectivity (aka no one listens, everyone talks)
-- [ ] Fix a version text being a text with input bar on side
+- [x] Fix a version text being a text with input bar on side
 - [ ] Make video feed work actually
+- [ ] Make a version text be just the section name so it will look better
+    - [ ] Same for the status
+        - [ ] Auto-update the status without need of reload
 
 
 

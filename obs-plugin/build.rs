@@ -20,7 +20,10 @@ fn main() {
 
     // Pass the build number to the main Rust compiler as an environment variable
     println!("cargo:rustc-env=BUFFALO_BUILD_NUMBER={}", build_num);
-    
-    // Ensure cargo rebuilds if build.rs itself changes
-    println!("cargo:rerun-if-changed=build.rs");
+
+    // NOTE: deliberately no `cargo:rerun-if-changed` directive here. Cargo's default with zero
+    // rerun-if directives is "always rerun this build script" -- exactly what a build counter
+    // needs. The moment even one rerun-if-changed is emitted, Cargo switches to ONLY rerunning
+    // when that specific file changes, which is why this counter was previously stuck unless
+    // build.rs itself was edited (or `cargo clean` wiped the cached "don't need to rerun" state).
 }

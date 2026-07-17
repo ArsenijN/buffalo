@@ -23,8 +23,9 @@ use obs_wrapper::{
     obs_register_module, obs_string,
     properties::{NumberProp, Properties, TextProp, TextType},
     source::{
-        CreatableSourceContext, GetDefaultsSource, GetNameSource, GetPropertiesSource,
-        GlobalContext, SourceContext, SourceType, Sourceable, UpdateSource, VideoTickSource,
+        CreatableSourceContext, GetDefaultsSource, GetHeightSource, GetNameSource,
+        GetPropertiesSource, GetWidthSource, GlobalContext, SourceContext, SourceType,
+        Sourceable, UpdateSource, VideoTickSource,
     },
     string::ObsString,
 };
@@ -46,6 +47,8 @@ struct StreamStatus {
     control_connected: bool,
     device: Option<String>,
     resolution: Option<String>,
+    width: u32,
+    height: u32,
 }
 
 impl StreamStatus {
@@ -198,6 +201,8 @@ fn start_listening(data: &mut BuffaloSourceData) {
                 let mut s = status_for_video.lock().unwrap();
                 s.video_connected = true;
                 s.frames_received += 1;
+                s.width = frame.width;
+                s.height = frame.height;
             }
             *latest_frame.lock().unwrap() = Some(frame);
         },
@@ -252,6 +257,21 @@ impl VideoTickSource for BuffaloSource {
     }
 }
 
+/// Reports the source's size to OBS -- 0 until the first real frame arrives (no dimensions are
+/// knowable before then), then whatever the phone is actually sending. Without these, OBS's
+/// transform system has nothing to size a scene item against.
+impl GetWidthSource for BuffaloSource {
+    fn get_width(&mut self) -> u32 {
+        self.data.lock().unwrap().status.lock().unwrap().width
+    }
+}
+
+impl GetHeightSource for BuffaloSource {
+    fn get_height(&mut self) -> u32 {
+        self.data.lock().unwrap().status.lock().unwrap().height
+    }
+}
+
 struct BuffaloModule {
     context: ModuleContext,
 }
@@ -273,6 +293,8 @@ impl Module for BuffaloModule {
             .enable_get_defaults()
             .enable_update()
             .enable_video_tick()
+            .enable_get_width()
+            .enable_get_height()
             .build();
 
         load_context.register_source(source);

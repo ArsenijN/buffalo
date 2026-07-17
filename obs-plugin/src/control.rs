@@ -38,7 +38,7 @@ type WsWrite = futures_util::stream::SplitSink<
 >;
 
 pub struct ControlServer {
-    runtime: Runtime,
+    runtime: Option<Runtime>,
     // Whichever phone is currently connected, if any -- set_bitrate() sends to this. Only one
     // phone streams at a time in v0, so "the current connection" is an unambiguous target.
     // tokio::sync::Mutex (not std) specifically because we hold this across a `.await` when
@@ -112,14 +112,16 @@ impl ControlServer {
             }
         });
 
-        Self { runtime, current_writer }
+        Self { runtime: Some(runtime), current_writer }
     }
 
     /// Send a bitrate change to whichever phone is currently connected -- wires up the "change
-    /// bitrate" button from SPECS.md 1.3's OBS plugin checklist. No-op if nothing's connected.
+    /// bitrate" button from SPECS.md 1.3's OBS plugin checklist. No-op if nothing's connected
+    /// (or if we're already mid-shutdown, in the narrow window Drop below is running).
     pub fn set_bitrate(&self, bps: u32) {
+        let Some(runtime) = self.runtime.as_ref() else { return };
         let current_writer = self.current_writer.clone();
-        self.runtime.spawn(async move {
+        runtime.spawn(async move {
             let mut guard = current_writer.lock().await;
             if let Some(write) = guard.as_mut() {
                 let text = serde_json::to_string(&OutgoingMessage::SetBitrate { value: bps })
@@ -127,6 +129,20 @@ impl ControlServer {
                 let _ = write.send(Message::Text(text)).await;
             }
         });
+    }
+}
+
+impl Drop for ControlServer {
+    fn drop(&mut self) {
+        // shutdown_background() takes ownership and returns immediately, abandoning any
+        // in-flight tasks (our accept loop never returns on its own -- it's an infinite loop by
+        // design) without waiting for them. The default Runtime::drop() instead blocks the
+        // calling thread until shutdown completes, which is a real risk here: OBS's source
+        // destroy callback runs on its own thread, and there's no guarantee blocking there is
+        // safe or bounded. This is the leading fix for sources not fully deleting.
+        if let Some(runtime) = self.runtime.take() {
+            runtime.shutdown_background();
+        }
     }
 }
 
